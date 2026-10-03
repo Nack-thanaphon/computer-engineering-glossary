@@ -140,3 +140,9 @@ Additional primary references:
 - [sql](https://www.postgresql.org/docs/current/tutorial-sql.html)
 - [index](https://www.postgresql.org/docs/current/indexes.html)
 - [transaction](https://www.postgresql.org/docs/current/tutorial-transactions.html)
+
+
+## Interface dependencies
+
+- [Lucide](https://lucide.dev/) v1.50.0 — ISC. Local bundle `glossary-assets/lucide.min.js`; license `glossary-assets/Lucide-LICENSE.txt`.
+- Visual design reference: [Brilliant](https://brilliant.org/). No Brilliant assets or course text are included.

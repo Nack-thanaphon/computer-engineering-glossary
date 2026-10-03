@@ -1,196 +1,4 @@
-<!DOCTYPE html>
-<html lang="th">
-<head>
-<link rel="stylesheet" href="theme.css">
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>📖 Computer Engineering — คำศัพท์และตัวอย่างทีละขั้น</title>
-<style>
-  :root {
-    --bg: #0f172a;
-    --card: #1e293b;
-    --card-hover: #243447;
-    --text: #f1f5f9;
-    --text-muted: #94a3b8;
-    --accent: #fbbf24;
-    --accent-soft: #fde68a;
-    --success: #4ade80;
-    --danger: #f87171;
-    --info: #60a5fa;
-    --purple: #a78bfa;
-    --pink: #f472b6;
-    --orange: #fb923c;
-    --border: #334155;
-  }
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
-    background: var(--bg); color: var(--text); line-height: 1.7;
-    padding: 2rem 1rem; max-width: 1000px; margin: 0 auto;
-  }
-  .header {
-    text-align: center; padding: 2.5rem 1.5rem;
-    background: linear-gradient(135deg, #1e293b, #0f172a);
-    border: 1px solid var(--border); border-radius: 16px; margin-bottom: 1.5rem;
-  }
-  .header h1 { font-size: 2rem; }
-  .header .subtitle { color: var(--text-muted); margin-top: 0.5rem; font-size: 0.95rem; }
-  .header .emoji { font-size: 3rem; display: block; margin-bottom: 0.5rem; }
-
-  /* Search */
-  .search-wrap { margin-bottom: 1.5rem; }
-  .search-input {
-    width: 100%; padding: 0.8rem 1.2rem;
-    background: var(--card); border: 1px solid var(--border);
-    border-radius: 10px; color: var(--text); font-size: 1rem;
-    transition: border-color 0.2s;
-  }
-  .search-input:focus { outline: none; border-color: var(--accent); }
-  .search-input::placeholder { color: var(--text-muted); }
-
-  /* Filter tabs */
-  .filter-tabs {
-    display: flex; gap: 0.5rem; margin-bottom: 1.5rem;
-    flex-wrap: wrap; overflow-x: auto;
-  }
-  .filter-tab {
-    padding: 0.5rem 1rem; background: var(--card);
-    border: 1px solid var(--border); border-radius: 8px;
-    color: var(--text-muted); cursor: pointer; font-size: 0.85rem;
-    font-weight: 600; white-space: nowrap; transition: all 0.2s;
-  }
-  .filter-tab:hover { background: var(--card-hover); color: var(--text); }
-  .filter-tab.active { background: var(--accent); color: #0f172a; border-color: var(--accent); }
-
-  /* Category section */
-  .category { margin-bottom: 2rem; }
-  .category-title {
-    font-size: 1.2rem; color: var(--accent); margin-bottom: 0.75rem;
-    padding-bottom: 0.5rem; border-bottom: 2px solid var(--border);
-    display: flex; align-items: center; gap: 0.5rem;
-  }
-  .category-count {
-    font-size: 0.75rem; background: rgba(251,191,36,0.15);
-    color: var(--accent); padding: 0.15rem 0.6rem; border-radius: 999px;
-  }
-
-  /* Keyword card */
-  .kw-card {
-    background: var(--card); border: 1px solid var(--border);
-    border-radius: 10px; padding: 1rem 1.25rem; margin-bottom: 0.75rem;
-    transition: all 0.2s; border-left: 4px solid var(--border);
-  }
-  .kw-card:hover { border-color: var(--accent); background: var(--card-hover); }
-  .kw-card.must-learn { border-left-color: var(--danger); }
-  .kw-card.important { border-left-color: var(--orange); }
-  .kw-card.known { border-left-color: var(--success); }
-
-  .kw-header { display: flex; align-items: baseline; gap: 0.75rem; flex-wrap: wrap; margin-bottom: 0.5rem; }
-  .kw-term { font-size: 1.05rem; font-weight: 700; color: var(--accent-soft); }
-  .kw-thai { font-size: 0.9rem; color: var(--text-muted); }
-  .kw-badge {
-    padding: 0.15rem 0.5rem; border-radius: 4px;
-    font-size: 0.7rem; font-weight: 700; margin-left: auto;
-  }
-  .kw-badge.must { background: rgba(248,113,113,0.2); color: var(--danger); }
-  .kw-badge.imp { background: rgba(251,146,60,0.2); color: var(--orange); }
-  .kw-badge.ok { background: rgba(74,222,128,0.2); color: var(--success); }
-
-  .kw-meaning {
-    font-size: 0.92rem; color: #e2e8f0; margin-bottom: 0.4rem;
-  }
-  .kw-professor {
-    font-size: 0.85rem; color: var(--text-muted);
-    padding: 0.5rem 0.75rem; background: rgba(96,165,250,0.06);
-    border-radius: 6px; border-left: 3px solid var(--info);
-    margin-top: 0.4rem;
-  }
-  .kw-professor::before { content: "👨‍🏫 อาจารย์พูด: "; font-weight: 600; color: var(--info); }
-
-  .kw-example {
-    font-size: 0.82rem; color: var(--accent-soft);
-    padding: 0.4rem 0.75rem; background: var(--bg);
-    border-radius: 6px; margin-top: 0.4rem;
-    font-family: 'SF Mono', monospace;
-  }
-  .kw-example::before { content: "💡 "; }
-
-  .footer {
-    text-align: center; color: var(--text-muted);
-    font-size: 0.85rem; padding: 2rem 1rem; border-top: 1px solid var(--border); margin-top: 2rem;
-  }
-
-  /* Stats bar */
-  .stats {
-    display: flex; gap: 1rem; justify-content: center;
-    margin-bottom: 1.5rem; flex-wrap: wrap;
-  }
-  .stat {
-    text-align: center; padding: 0.75rem 1.25rem;
-    background: var(--card); border: 1px solid var(--border);
-    border-radius: 10px; min-width: 100px;
-  }
-  .stat-num { font-size: 1.5rem; font-weight: 700; }
-  .stat-label { font-size: 0.75rem; color: var(--text-muted); }
-  .stat.must .stat-num { color: var(--danger); }
-  .stat.imp .stat-num { color: var(--orange); }
-  .stat.ok .stat-num { color: var(--success); }
-
-  @media (max-width: 600px) {
-    .header h1 { font-size: 1.5rem; }
-    body { padding: 1rem 0.5rem; }
-  }
-
-.math-example {font-family:inherit;font-size:1.02rem;overflow-x:auto;padding:.8rem 1rem;}
-.math-example::before {content:none;}
-mjx-container[display="true"] {margin:.45em 0!important;}
-.kw-term {overflow-wrap:anywhere;}
-.concept-animation {margin:1rem 0 0;background:#0f172a;border:1px solid var(--border);border-radius:12px;overflow:hidden;}
-.animation-toolbar {display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:.65rem 1rem;color:var(--text-muted);font-size:.8rem;}
-.concept-animation img {display:block;width:100%;max-width:620px;height:auto;margin:auto;}
-.concept-animation figcaption {padding:.8rem 1rem;color:#e2e8f0;font-size:.9rem;}
-.concept-animation small {display:block;margin-top:.4rem;color:var(--text-muted);font-size:.72rem;}
-button {font:inherit;cursor:pointer;}
-.motion-toggle,.global-motion {background:#1e293b;color:var(--accent-soft);border:1px solid var(--border);border-radius:7px;padding:.35rem .7rem;}
-button:focus-visible,input:focus-visible,summary:focus-visible {outline:2px solid var(--accent);outline-offset:3px;}
-.external-animation {margin-top:.7rem;font-size:.85rem;}
-.external-animation summary {cursor:pointer;color:var(--info);}
-a {color:var(--info);}
-.learning-note {border:1px solid var(--border);border-radius:10px;padding:1rem;margin-bottom:1.3rem;font-size:.88rem;color:var(--text-muted);}
-.learning-note strong {color:var(--text);}
-.learning-note button {margin-top:.7rem;}
-#resultCount {color:var(--text-muted);font-size:.85rem;margin-bottom:1rem;}
-[hidden] {display:none!important;}
-@media (max-width:600px) {.kw-card {padding:.8rem;}.math-example {font-size:.85rem;}.animation-toolbar {padding:.5rem;}}
-
-.concept-animation img {max-height:420px;object-fit:contain;background:#fff;}
-.remember {margin-top:.55rem;padding-top:.55rem;border-top:1px solid var(--border);}
-
-mjx-container[jax="SVG"][display="true"] {display:block;text-align:center;}
-mjx-container[jax="SVG"] > svg {overflow:visible;}
-mjx-assistive-mml {position:absolute!important;top:0;left:0;clip:rect(1px,1px,1px,1px);padding:1px!important;border:0!important;height:1px!important;width:1px!important;overflow:hidden!important;display:block!important;}
-
-.algorithm-card {scroll-margin-top:20px;}
-.algo-intro,.algo-io {color:var(--text-muted);line-height:1.8;}
-.algo-io {padding:.7rem;border-left:3px solid var(--accent);background:rgba(56,189,248,.05);}
-.algo-trace {padding:1rem;border:1px solid var(--border);border-radius:10px;margin:1rem 0;background:rgba(56,189,248,.04);}
-.algo-steps {padding-left:1.6rem;min-height:65px;line-height:1.8;}
-.trace-controls {display:flex;align-items:center;gap:.7rem;flex-wrap:wrap;}
-.trace-controls button {padding:.5rem .8rem;border:1px solid var(--border);border-radius:7px;background:var(--card);color:var(--text);cursor:pointer;}
-.trace-controls button:disabled {opacity:.4;cursor:default;}
-.trace-progress {color:var(--accent);font-variant-numeric:tabular-nums;}
-.algo-code,.algo-quiz {margin:1rem 0;line-height:1.8;}
-.algorithm-card summary {cursor:pointer;color:var(--accent);}
-.algo-code pre {padding:1rem;background:#0b1220;border-radius:8px;overflow:auto;font-size:.85rem;line-height:1.7;}
-.algo-quiz {padding:1rem;border:1px solid var(--border);border-radius:8px;}
-.algo-quiz details {margin-top:.6rem;}
-.ce-ref {font-size:.82rem; margin-top:1rem;}
-.ce-ref a {color:var(--info);}
-@media(max-width:600px){.filter-tab{min-height:44px;} .trace-controls button{min-height:44px;} h1{overflow-wrap:anywhere;}}
-.mobile-category{display:none;}
-@media(max-width:700px){.filter-tabs{display:none;} .mobile-category{display:block;margin:1rem 0;} .mobile-category label{display:block;margin-bottom:.5rem;color:var(--text-muted);} .mobile-category select{width:100%;min-height:48px;border:1px solid var(--border);border-radius:10px;padding:.6rem;background:var(--card);color:var(--text);font-size:1rem;}}
-</style>
-<script>
+<!doctype html><html lang="th"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#f7f8f5"><meta name="description" content="เรียนคณิตศาสตร์ Algorithms และ Computer Engineering ด้วย 155 หัวข้อ พร้อมภาพ สูตร และตัวอย่างไทยทีละขั้น"><title>Foundations — เรียนรู้วิศวกรรมคอมพิวเตอร์</title><link rel="stylesheet" href="design.css"><script>
 window.MathJax = {
  startup:{typeset:false,pageReady:async()=>{
   for(const el of document.querySelectorAll('.math-example')){
@@ -208,58 +16,16 @@ window.MathJax = {
  tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']]},
  svg:{fontCache:'local'}
 };
-</script>
-<script defer src="glossary-assets/tex-svg.js"></script>
-</head>
-<body>
-
-<div class="header">
-  <span class="emoji">📖</span>
-  <h1>Computer Engineering — คำศัพท์และตัวอย่างทีละขั้น</h1>
-  <p class="subtitle">เรียนคณิตศาสตร์ Algorithms และพื้นฐานวิศวกรรมคอมพิวเตอร์ ด้วยตัวอย่างไทยทีละขั้น</p>
-</div>
-
-<div class="learning-note"><strong>อ่านสูตร → ดูภาพ → อ่านตัวอย่างไทย</strong><br>ครบ 155 หัวข้อ พร้อมสูตร LaTeX • Algorithms 20 หัวข้อ และพื้นฐาน Computer Engineering ใหม่ 38 หัวข้อใน 11 หมวด • มีตัวอย่างทีละขั้น โค้ด และคำถามพร้อมเฉลย • ภาพจากเว็บมีเครดิตต้นฉบับ<br>สูตรและภาพรวมอยู่กับเว็บ ไม่ต้องใช้บริการภายนอกเพื่อแสดงผล • ชุดไฟล์ที่ดาวน์โหลดเปิดอ่านออฟไลน์ได้ • ภาพหนึ่งอาจใช้ประกอบหัวข้อที่เกี่ยวข้องกันหลายหัวข้อ<br><button type="button" class="global-motion" id="globalMotion" aria-pressed="false">หยุดภาพเคลื่อนไหวทั้งหมด</button></div>
-<p id="resultCount" role="status" aria-live="polite"></p>
-<!-- Stats -->
-<div class="stats">
-  <div class="stat must"><div class="stat-num" id="mustCount">0</div><div class="stat-label">🔴 ต้องเรียน</div></div>
-  <div class="stat imp"><div class="stat-num" id="impCount">0</div><div class="stat-label">🟠 สำคัญ</div></div>
-  <div class="stat ok"><div class="stat-num" id="okCount">0</div><div class="stat-label">🟢 รู้แล้ว/ไม่ด่วน</div></div>
-</div>
-
-<!-- Search -->
-<div class="search-wrap">
-  <input type="text" class="search-input" id="searchBox" aria-label="ค้นหาคำศัพท์" placeholder="🔍 ค้นหาคำศัพท์... (เช่น derivative, อนุพันธ์, optimization)">
-</div>
-
-<!-- Filter tabs -->
-<div class="mobile-category"><label for="categorySelect">เลือกหมวดที่อยากอ่าน</label><select id="categorySelect"><option value="all">ทั้งหมด</option><option value="math">📐 พื้นฐานคณิต</option><option value="calculus">∫ Calculus</option><option value="model">📊 Model</option><option value="process">⚙️ กระบวนการ</option><option value="ml">🤖 ML</option><option value="examples">🐄 ตัวอย่าง</option><option value="algorithms">🧩 Algorithms</option><option value="symbols">🔤 สัญลักษณ์</option><option value="ds">🗂️ Data Structures</option><option value="memory">💻 Programming &amp; Memory</option><option value="digital">🔌 Digital Logic</option><option value="architecture">🧠 Computer Architecture</option><option value="os">⚙️ Operating Systems</option><option value="networks">🌐 Networks</option><option value="embedded">🤖 Circuits &amp; Embedded</option><option value="database">🗄️ Databases</option><option value="software">🛠️ Software Engineering</option><option value="security">🔐 Security</option><option value="discrete">🧮 Discrete Math</option></select></div>
-<div class="filter-tabs">
-<button data-category="all" type="button" class="filter-tab active" onclick="filterCategory('all', this)" aria-pressed="true">ทั้งหมด</button>
-<button data-category="math" type="button" class="filter-tab" onclick="filterCategory('math', this)" aria-pressed="false">📐 พื้นฐานคณิต</button>
-<button data-category="calculus" type="button" class="filter-tab" onclick="filterCategory('calculus', this)" aria-pressed="false">∫ Calculus</button>
-<button data-category="model" type="button" class="filter-tab" onclick="filterCategory('model', this)" aria-pressed="false">📊 Model</button>
-<button data-category="process" type="button" class="filter-tab" onclick="filterCategory('process', this)" aria-pressed="false">⚙️ กระบวนการ</button>
-<button data-category="ml" type="button" class="filter-tab" onclick="filterCategory('ml', this)" aria-pressed="false">🤖 ML</button>
-<button data-category="examples" type="button" class="filter-tab" onclick="filterCategory('examples', this)" aria-pressed="false">🐄 ตัวอย่าง</button>
-<button data-category="algorithms" type="button" class="filter-tab" onclick="filterCategory('algorithms', this)" aria-pressed="false">🧩 Algorithms</button>
-<button data-category="symbols" type="button" class="filter-tab" onclick="filterCategory('symbols', this)" aria-pressed="false">🔤 สัญลักษณ์</button>
-<button data-category="ds" type="button" class="filter-tab" onclick="filterCategory('ds', this)" aria-pressed="false">🗂️ Data Structures</button>
-<button data-category="memory" type="button" class="filter-tab" onclick="filterCategory('memory', this)" aria-pressed="false">💻 Programming &amp; Memory</button>
-<button data-category="digital" type="button" class="filter-tab" onclick="filterCategory('digital', this)" aria-pressed="false">🔌 Digital Logic</button>
-<button data-category="architecture" type="button" class="filter-tab" onclick="filterCategory('architecture', this)" aria-pressed="false">🧠 Computer Architecture</button>
-<button data-category="os" type="button" class="filter-tab" onclick="filterCategory('os', this)" aria-pressed="false">⚙️ Operating Systems</button>
-<button data-category="networks" type="button" class="filter-tab" onclick="filterCategory('networks', this)" aria-pressed="false">🌐 Networks</button>
-<button data-category="embedded" type="button" class="filter-tab" onclick="filterCategory('embedded', this)" aria-pressed="false">🤖 Circuits &amp; Embedded</button>
-<button data-category="database" type="button" class="filter-tab" onclick="filterCategory('database', this)" aria-pressed="false">🗄️ Databases</button>
-<button data-category="software" type="button" class="filter-tab" onclick="filterCategory('software', this)" aria-pressed="false">🛠️ Software Engineering</button>
-<button data-category="security" type="button" class="filter-tab" onclick="filterCategory('security', this)" aria-pressed="false">🔐 Security</button>
-<button data-category="discrete" type="button" class="filter-tab" onclick="filterCategory('discrete', this)" aria-pressed="false">🧮 Discrete Math</button></div>
-
-<!-- ============ CATEGORY: MATH FOUNDATION ============ -->
+</script><script defer src="glossary-assets/tex-svg.js"></script><script defer src="glossary-assets/lucide.min.js"></script><script defer src="app.js"></script></head><body>
+<a class="skip-link" href="#main">ข้ามไปเนื้อหา</a>
+<header class="topbar"><div class="topbar-inner"><button class="brand" type="button" data-library><i data-lucide="book-open" aria-hidden="true"></i><span>Foundations<span class="brand-dot">.</span></span></button><span class="topbar-note">Computer Engineering</span><div class="topbar-actions"><button type="button" class="top-link" data-library>คลังบทเรียน</button><button type="button" class="top-link" data-all>ทุกหัวข้อ</button><a class="source-link" href="SOURCES.md" aria-label="แหล่งอ้างอิง"><i data-lucide="external-link" aria-hidden="true"></i></a></div></div></header>
+<div class="app-layout"><aside class="sidebar" aria-label="หมวดบทเรียน"><button class="library-nav" type="button" data-library><i data-lucide="layout-grid" aria-hidden="true"></i>คลังบทเรียน</button><button class="filter-tab all-nav" data-category="all" type="button">ทุกหัวข้อ<span class="nav-count">155</span></button><p class="nav-label">MATHEMATICS</p><button class="filter-tab" data-category="math" type="button"><span>คณิตศาสตร์พื้นฐาน</span><span class="nav-count">12</span></button><button class="filter-tab" data-category="calculus" type="button"><span>Calculus</span><span class="nav-count">10</span></button><button class="filter-tab" data-category="discrete" type="button"><span>Discrete Mathematics</span><span class="nav-count">3</span></button><button class="filter-tab" data-category="symbols" type="button"><span>สัญลักษณ์คณิตศาสตร์</span><span class="nav-count">31</span></button><p class="nav-label">COMPUTER ENGINEERING</p><button class="filter-tab" data-category="algorithms" type="button"><span>Algorithms</span><span class="nav-count">20</span></button><button class="filter-tab" data-category="ds" type="button"><span>Data Structures</span><span class="nav-count">6</span></button><button class="filter-tab" data-category="memory" type="button"><span>Programming &amp; Memory</span><span class="nav-count">3</span></button><button class="filter-tab" data-category="digital" type="button"><span>Digital Logic</span><span class="nav-count">3</span></button><button class="filter-tab" data-category="architecture" type="button"><span>Computer Architecture</span><span class="nav-count">3</span></button><button class="filter-tab" data-category="os" type="button"><span>Operating Systems</span><span class="nav-count">4</span></button><button class="filter-tab" data-category="networks" type="button"><span>Networks</span><span class="nav-count">3</span></button><button class="filter-tab" data-category="embedded" type="button"><span>Circuits &amp; Embedded</span><span class="nav-count">4</span></button><button class="filter-tab" data-category="database" type="button"><span>Databases</span><span class="nav-count">3</span></button><button class="filter-tab" data-category="software" type="button"><span>Software Engineering</span><span class="nav-count">3</span></button><button class="filter-tab" data-category="security" type="button"><span>Security</span><span class="nav-count">3</span></button><p class="nav-label">MODELS & DATA</p><button class="filter-tab" data-category="model" type="button"><span>Mathematical Models</span><span class="nav-count">12</span></button><button class="filter-tab" data-category="process" type="button"><span>Modelling Process</span><span class="nav-count">10</span></button><button class="filter-tab" data-category="ml" type="button"><span>Machine Learning</span><span class="nav-count">14</span></button><button class="filter-tab" data-category="examples" type="button"><span>ตัวอย่างแบบจำลอง</span><span class="nav-count">8</span></button><div class="sidebar-foot">ค่อย ๆ เข้าใจ<br>ทีละแนวคิด</div></aside>
+<main id="main" class="main-content"><div class="search-bar"><div class="search-wrap"><i data-lucide="search" aria-hidden="true"></i><input id="searchBox" type="search" class="search-input" aria-label="ค้นหาทุกหัวข้อ" placeholder="ค้นหาหัวข้อ เช่น Stack, อนุพันธ์, SQL" autocomplete="off"></div><span class="library-size">155 หัวข้อ · 19 หมวด</span></div><div class="mobile-category"><label class="sr-only" for="categorySelect">เลือกหมวดบทเรียน</label><select id="categorySelect"><option value="library">คลังบทเรียน</option><option value="all">ทุกหัวข้อ</option><option value="math">คณิตศาสตร์พื้นฐาน</option><option value="calculus">Calculus</option><option value="discrete">Discrete Mathematics</option><option value="symbols">สัญลักษณ์คณิตศาสตร์</option><option value="algorithms">Algorithms</option><option value="ds">Data Structures</option><option value="memory">Programming &amp; Memory</option><option value="digital">Digital Logic</option><option value="architecture">Computer Architecture</option><option value="os">Operating Systems</option><option value="networks">Networks</option><option value="embedded">Circuits &amp; Embedded</option><option value="database">Databases</option><option value="software">Software Engineering</option><option value="security">Security</option><option value="model">Mathematical Models</option><option value="process">Modelling Process</option><option value="ml">Machine Learning</option><option value="examples">ตัวอย่างแบบจำลอง</option></select></div>
+<section id="libraryView"><div class="hero"><div class="hero-copy"><p class="eyebrow">LEARN BY UNDERSTANDING</p><h1>เข้าใจพื้นฐาน<br>ทีละแนวคิด<span class="heading-dot">.</span></h1><p class="hero-desc">จากคณิตศาสตร์สู่วิศวกรรมคอมพิวเตอร์<br>เรียนด้วยภาพ ลองคิดทีละขั้น แล้วเช็กความเข้าใจ</p><button class="primary-button" type="button" data-open="ds">เริ่มจาก Data Structures <i data-lucide="arrow-right" aria-hidden="true"></i></button><p class="hero-note">อ่านได้ตามจังหวะของคุณ ทั้งบนคอมพิวเตอร์และ iPad</p></div><div class="featured-course"><div class="feature-top"><span class="eyebrow">FEATURED LESSON</span><span class="feature-pill">20 หัวข้อ</span></div><h2>คิดอย่างเป็นขั้นตอน</h2><p>Algorithms</p><div class="feature-image"><img src="glossary-assets/alg-dijkstra-poster.png" alt="ตัวอย่างกราฟที่มีน้ำหนักสำหรับหาเส้นทางสั้นที่สุด"><span>Dijkstra’s Algorithm</span></div><div class="feature-bottom"><a href="https://commons.wikimedia.org/wiki/File:Dijkstra_Animation.gif" target="_blank" rel="noopener">ภาพ: Ibmua · Public domain</a><button class="feature-start" type="button" data-open="algorithms" aria-label="เปิด Algorithms"><i data-lucide="arrow-up-right" aria-hidden="true"></i></button></div></div></div>
+<div class="library-heading"><div><p class="eyebrow">EXPLORE YOUR LIBRARY</p><h2>เลือกเรื่องที่อยากเข้าใจ</h2></div><span class="section-meta">19 หมวดเรียน</span></div><div class="course-filters" aria-label="กรองหมวดในคลัง"><button type="button" class="course-filter active" data-group-filter="all" aria-pressed="true">ทั้งหมด</button><button type="button" class="course-filter" data-group-filter="math" aria-pressed="false">คณิตศาสตร์</button><button type="button" class="course-filter" data-group-filter="computing" aria-pressed="false">วิศวกรรมคอมพิวเตอร์</button><button type="button" class="course-filter" data-group-filter="models" aria-pressed="false">โมเดลและข้อมูล</button></div><div class="course-grid"><button type="button" class="course-card" data-open="math" data-group="math"><span class="course-topline"><span class="course-number">01</span><span class="course-label">Mathematics</span></span><span class="course-title">คณิตศาสตร์พื้นฐาน</span><span class="course-desc">ตัวแปร ฟังก์ชัน และการคิดด้วยสมการ</span><span class="course-bottom"><span>12 หัวข้อ</span><span class="course-link">เริ่มเรียน <i data-lucide="arrow-right" aria-hidden="true"></i></span></span></button><button type="button" class="course-card" data-open="calculus" data-group="math"><span class="course-topline"><span class="course-number">02</span><span class="course-label">Mathematics</span></span><span class="course-title">Calculus</span><span class="course-desc">เข้าใจอัตราการเปลี่ยนแปลงและการสะสม</span><span class="course-bottom"><span>10 หัวข้อ</span><span class="course-link">เริ่มเรียน <i data-lucide="arrow-right" aria-hidden="true"></i></span></span></button><button type="button" class="course-card" data-open="discrete" data-group="math"><span class="course-topline"><span class="course-number">03</span><span class="course-label">Mathematics</span></span><span class="course-title">Discrete Mathematics</span><span class="course-desc">ตรรกะ เซต การพิสูจน์ และการนับ</span><span class="course-bottom"><span>3 หัวข้อ</span><span class="course-link">เริ่มเรียน <i data-lucide="arrow-right" aria-hidden="true"></i></span></span></button><button type="button" class="course-card" data-open="symbols" data-group="math"><span class="course-topline"><span class="course-number">04</span><span class="course-label">Mathematics</span></span><span class="course-title">สัญลักษณ์คณิตศาสตร์</span><span class="course-desc">อ่านสูตรให้เข้าใจ จากเครื่องหมายสู่ความหมาย</span><span class="course-bottom"><span>31 หัวข้อ</span><span class="course-link">เริ่มเรียน <i data-lucide="arrow-right" aria-hidden="true"></i></span></span></button><button type="button" class="course-card" data-open="algorithms" data-group="computing"><span class="course-topline"><span class="course-number">05</span><span class="course-label">Computer Engineering</span></span><span class="course-title">Algorithms</span><span class="course-desc">ค้นหา เรียงลำดับ และคำนวณทีละขั้น</span><span class="course-bottom"><span>20 หัวข้อ</span><span class="course-link">เริ่มเรียน <i data-lucide="arrow-right" aria-hidden="true"></i></span></span></button><button type="button" class="course-card" data-open="ds" data-group="computing"><span class="course-topline"><span class="course-number">06</span><span class="course-label">Computer Engineering</span></span><span class="course-title">Data Structures</span><span class="course-desc">เลือกวิธีจัดเก็บข้อมูลให้เหมาะกับงาน</span><span class="course-bottom"><span>6 หัวข้อ</span><span class="course-link">เริ่มเรียน <i data-lucide="arrow-right" aria-hidden="true"></i></span></span></button><button type="button" class="course-card" data-open="memory" data-group="computing"><span class="course-topline"><span class="course-number">07</span><span class="course-label">Computer Engineering</span></span><span class="course-title">Programming &amp; Memory</span><span class="course-desc">เข้าใจ pointer และอายุของข้อมูล</span><span class="course-bottom"><span>3 หัวข้อ</span><span class="course-link">เริ่มเรียน <i data-lucide="arrow-right" aria-hidden="true"></i></span></span></button><button type="button" class="course-card" data-open="digital" data-group="computing"><span class="course-topline"><span class="course-number">08</span><span class="course-label">Computer Engineering</span></span><span class="course-title">Digital Logic</span><span class="course-desc">จากเลขฐานสองสู่กติกาของวงจร</span><span class="course-bottom"><span>3 หัวข้อ</span><span class="course-link">เริ่มเรียน <i data-lucide="arrow-right" aria-hidden="true"></i></span></span></button><button type="button" class="course-card" data-open="architecture" data-group="computing"><span class="course-topline"><span class="course-number">09</span><span class="course-label">Computer Engineering</span></span><span class="course-title">Computer Architecture</span><span class="course-desc">สำรวจ CPU, cache และประสิทธิภาพ</span><span class="course-bottom"><span>3 หัวข้อ</span><span class="course-link">เริ่มเรียน <i data-lucide="arrow-right" aria-hidden="true"></i></span></span></button><button type="button" class="course-card" data-open="os" data-group="computing"><span class="course-topline"><span class="course-number">10</span><span class="course-label">Computer Engineering</span></span><span class="course-title">Operating Systems</span><span class="course-desc">process, thread และการแบ่งทรัพยากร</span><span class="course-bottom"><span>4 หัวข้อ</span><span class="course-link">เริ่มเรียน <i data-lucide="arrow-right" aria-hidden="true"></i></span></span></button><button type="button" class="course-card" data-open="networks" data-group="computing"><span class="course-topline"><span class="course-number">11</span><span class="course-label">Computer Engineering</span></span><span class="course-title">Networks</span><span class="course-desc">ข้อมูลเดินทางระหว่างเครื่องอย่างไร</span><span class="course-bottom"><span>3 หัวข้อ</span><span class="course-link">เริ่มเรียน <i data-lucide="arrow-right" aria-hidden="true"></i></span></span></button><button type="button" class="course-card" data-open="embedded" data-group="computing"><span class="course-topline"><span class="course-number">12</span><span class="course-label">Computer Engineering</span></span><span class="course-title">Circuits &amp; Embedded</span><span class="course-desc">เชื่อมโปรแกรมกับสัญญาณและอุปกรณ์จริง</span><span class="course-bottom"><span>4 หัวข้อ</span><span class="course-link">เริ่มเรียน <i data-lucide="arrow-right" aria-hidden="true"></i></span></span></button><button type="button" class="course-card" data-open="database" data-group="computing"><span class="course-topline"><span class="course-number">13</span><span class="course-label">Computer Engineering</span></span><span class="course-title">Databases</span><span class="course-desc">ค้นข้อมูลด้วย SQL และรักษาความถูกต้อง</span><span class="course-bottom"><span>3 หัวข้อ</span><span class="course-link">เริ่มเรียน <i data-lucide="arrow-right" aria-hidden="true"></i></span></span></button><button type="button" class="course-card" data-open="software" data-group="computing"><span class="course-topline"><span class="course-number">14</span><span class="course-label">Computer Engineering</span></span><span class="course-title">Software Engineering</span><span class="course-desc">เขียน ตรวจ และพัฒนาโปรแกรมร่วมกัน</span><span class="course-bottom"><span>3 หัวข้อ</span><span class="course-link">เริ่มเรียน <i data-lucide="arrow-right" aria-hidden="true"></i></span></span></button><button type="button" class="course-card" data-open="security" data-group="computing"><span class="course-topline"><span class="course-number">15</span><span class="course-label">Computer Engineering</span></span><span class="course-title">Security</span><span class="course-desc">เข้าใจตัวตน สิทธิ์ และการปกป้องข้อมูล</span><span class="course-bottom"><span>3 หัวข้อ</span><span class="course-link">เริ่มเรียน <i data-lucide="arrow-right" aria-hidden="true"></i></span></span></button><button type="button" class="course-card" data-open="model" data-group="models"><span class="course-topline"><span class="course-number">16</span><span class="course-label">Models &amp; Data</span></span><span class="course-title">Mathematical Models</span><span class="course-desc">อธิบายระบบจริงด้วยแบบจำลอง</span><span class="course-bottom"><span>12 หัวข้อ</span><span class="course-link">เริ่มเรียน <i data-lucide="arrow-right" aria-hidden="true"></i></span></span></button><button type="button" class="course-card" data-open="process" data-group="models"><span class="course-topline"><span class="course-number">17</span><span class="course-label">Models &amp; Data</span></span><span class="course-title">Modelling Process</span><span class="course-desc">ตั้งคำถาม สร้างโมเดล และตรวจผล</span><span class="course-bottom"><span>10 หัวข้อ</span><span class="course-link">เริ่มเรียน <i data-lucide="arrow-right" aria-hidden="true"></i></span></span></button><button type="button" class="course-card" data-open="ml" data-group="models"><span class="course-topline"><span class="course-number">18</span><span class="course-label">Models &amp; Data</span></span><span class="course-title">Machine Learning</span><span class="course-desc">เรียนรู้รูปแบบจากข้อมูลและวัดผล</span><span class="course-bottom"><span>14 หัวข้อ</span><span class="course-link">เริ่มเรียน <i data-lucide="arrow-right" aria-hidden="true"></i></span></span></button><button type="button" class="course-card" data-open="examples" data-group="models"><span class="course-topline"><span class="course-number">19</span><span class="course-label">Models &amp; Data</span></span><span class="course-title">ตัวอย่างแบบจำลอง</span><span class="course-desc">เชื่อมสมการกับปัญหาที่จับต้องได้</span><span class="course-bottom"><span>8 หัวข้อ</span><span class="course-link">เริ่มเรียน <i data-lucide="arrow-right" aria-hidden="true"></i></span></span></button></div></section>
+<section id="readerView" hidden aria-label="เนื้อหาบทเรียน"><div class="reader-heading"><button type="button" class="back-button" data-library><i data-lucide="arrow-left" aria-hidden="true"></i>คลังบทเรียน</button><p class="eyebrow" id="readerGroup">LESSONS</p><h1 id="readerTitle">ทุกหัวข้อ</h1><p id="readerDescription"></p></div><div class="reader-toolbar"><p id="resultCount" role="status" aria-live="polite"></p><button type="button" id="globalMotion" class="global-motion" aria-pressed="false">หยุดภาพเคลื่อนไหว</button></div><div id="emptyState" class="empty-state" hidden><h2>ยังไม่พบหัวข้อนี้</h2><p>ลองใช้คำภาษาไทยหรืออังกฤษ หรือเปลี่ยนคำค้นให้สั้นลง</p><button type="button" id="clearSearch" class="secondary-button">ล้างคำค้น</button></div><!-- ============ CATEGORY: MATH FOUNDATION ============ -->
 <div class="category" data-cat="math">
-  <h2 class="category-title">📐 พื้นฐานคณิตศาสตร์ <span class="category-count">12</span></h2>
+  <h2 class="category-title"> พื้นฐานคณิตศาสตร์ <span class="category-count">12</span></h2>
 
   <div class="kw-card must-learn" id="concept-1" data-keywords="variable ตัวแปร variable">
     <div class="kw-header">
@@ -531,7 +297,7 @@ window.MathJax = {
 
 <!-- ============ CATEGORY: MODEL ============ -->
 <div class="category" data-cat="model">
-  <h2 class="category-title">📊 ประเภทของ Model <span class="category-count">12</span></h2>
+  <h2 class="category-title"> ประเภทของ Model <span class="category-count">12</span></h2>
 
   <div class="kw-card must-learn" id="concept-23" data-keywords="static dynamic สแตติกไดนามิก">
     <div class="kw-header">
@@ -680,7 +446,7 @@ window.MathJax = {
 
 <!-- ============ CATEGORY: PROCESS ============ -->
 <div class="category" data-cat="process">
-  <h2 class="category-title">⚙️ กระบวนการสร้าง Model <span class="category-count">10</span></h2>
+  <h2 class="category-title"> กระบวนการสร้าง Model <span class="category-count">10</span></h2>
 
   <div class="kw-card must-learn" id="concept-35" data-keywords="objective เป้าหมาย">
     <div class="kw-header">
@@ -805,7 +571,7 @@ window.MathJax = {
 
 <!-- ============ CATEGORY: ML ============ -->
 <div class="category" data-cat="ml">
-  <h2 class="category-title">🤖 Machine Learning <span class="category-count">14</span></h2>
+  <h2 class="category-title"> Machine Learning <span class="category-count">14</span></h2>
 
   <div class="kw-card important" id="concept-45" data-keywords="machine learning แมชชีนเลิร์นนิ่ง ml">
     <div class="kw-header">
@@ -978,7 +744,7 @@ window.MathJax = {
 
 <!-- ============ CATEGORY: EXAMPLES ============ -->
 <div class="category" data-cat="examples">
-  <h2 class="category-title">🐄 โมเดลตัวอย่าง <span class="category-count">8</span></h2>
+  <h2 class="category-title"> โมเดลตัวอย่าง <span class="category-count">8</span></h2>
 
   <div class="kw-card known" id="concept-59" data-keywords="cpu thermal model processor temperature">
     <div class="kw-header">
@@ -1079,7 +845,7 @@ window.MathJax = {
 
 <!-- ============ CATEGORY: MATH SYMBOLS ============ -->
 <div class="category" data-cat="symbols">
-  <h2 class="category-title">🔤 สัญลักษณ์ทางคณิตศาสตร์ <span class="category-count">28</span></h2>
+  <h2 class="category-title"> สัญลักษณ์ทางคณิตศาสตร์ <span class="category-count">28</span></h2>
 
   <div class="kw-card must-learn" id="concept-67" data-keywords="เท่ากับ equal equals = เครื่องหมายเท่ากับ">
     <div class="kw-header">
@@ -1435,7 +1201,7 @@ window.MathJax = {
 
 </div>
 
-<div class="category" data-cat="algorithms"><div class="category-header"><h2>🧩 Algorithms — ลงมือคิดทีละขั้น</h2><span class="category-count">20</span></div><p class="algo-intro">เริ่มจากวิธีคิด → ค้นหาและเรียง → คำนวณเชิงตัวเลข → ML และกราฟ อ่านโจทย์ แล้วกด “ขั้นถัดไป” ลองทายผลก่อนเปิดเฉลย ภาพจากเว็บอาจใช้ข้อมูลคนละชุดกับตัวอย่างตัวเลขด้านล่าง</p>
+<div class="category" data-cat="algorithms"><div class="category-header"><h2> Algorithms — ลงมือคิดทีละขั้น</h2><span class="category-count">20</span></div><p class="algo-intro">เริ่มจากวิธีคิด → ค้นหาและเรียง → คำนวณเชิงตัวเลข → ML และกราฟ อ่านโจทย์ แล้วกด “ขั้นถัดไป” ลองทายผลก่อนเปิดเฉลย ภาพจากเว็บอาจใช้ข้อมูลคนละชุดกับตัวอย่างตัวเลขด้านล่าง</p>
 <article class="kw-card important algorithm-card" id="algo-algorithm" data-keywords="algorithm อัลกอริทึม อัลกอริทึม = วิธีทำทีละขั้น"><div class="kw-header"><span class="kw-term">Algorithm</span><span class="kw-thai">อัลกอริทึม = วิธีทำทีละขั้น</span><span class="kw-badge imp">สำคัญ</span></div><p class="kw-meaning">เหมือนสูตรทำอาหาร: รับสิ่งตั้งต้น ทำตามกติกาที่ชัดเจน แล้วได้ผลลัพธ์</p><p class="algo-io">เข้า: [2,4,6] • ออก: ผลรวม 12</p><div class="kw-example math-example">\[S=\sum_{i=1}^{3}a_i=2+4+6=12\]</div><div class="algo-trace"><strong>ลองตามตัวอย่าง</strong><ol class="algo-steps"><li class="algo-step" >เริ่ม total = 0</li><li class="algo-step" hidden>อ่าน 2 → total = 2</li><li class="algo-step" hidden>อ่าน 4 → total = 6</li><li class="algo-step" hidden>อ่าน 6 → total = 12 แล้วคืนผลลัพธ์</li></ol><div class="trace-controls"><button type="button" data-step="-1" disabled>ขั้นก่อนหน้า</button><span class="trace-progress" role="status">1 / 4</span><button type="button" data-step="1">ขั้นถัดไป</button></div></div><details class="algo-code"><summary>ดู pseudocode — วิธีทำแบบย่อ</summary><pre><code>total ← 0
 for value in values:
     total ← total + value
@@ -1456,7 +1222,7 @@ halve the range each round → O(log n)</code></pre></details><p class="remember
 <article class="kw-card important algorithm-card" id="algo-linear" data-keywords="algorithm อัลกอริทึม ไล่หาทีละตัว"><div class="kw-header"><span class="kw-term">Linear Search</span><span class="kw-thai">ไล่หาทีละตัว</span><span class="kw-badge imp">สำคัญ</span></div><p class="kw-meaning">เปิดดูจากต้นรายการจนพบของที่ต้องการ คล้ายไล่หาชื่อในกระดาษ</p><p class="algo-io">เข้า: [8,3,9,2], target = 9 • ออก: index = 2 (เริ่มนับที่ 0)</p><div class="kw-example math-example">\[T_{\mathrm{worst}}(n)=O(n)\]</div><div class="algo-trace"><strong>ลองตามตัวอย่าง</strong><ol class="algo-steps"><li class="algo-step" >index 0: 8 ≠ 9 → ไปต่อ</li><li class="algo-step" hidden>index 1: 3 ≠ 9 → ไปต่อ</li><li class="algo-step" hidden>index 2: 9 = 9 → พบแล้ว</li><li class="algo-step" hidden>คืน index 2; ถ้าไล่ครบไม่พบ คืน NOT_FOUND</li></ol><div class="trace-controls"><button type="button" data-step="-1" disabled>ขั้นก่อนหน้า</button><span class="trace-progress" role="status">1 / 4</span><button type="button" data-step="1">ขั้นถัดไป</button></div></div><details class="algo-code"><summary>ดู pseudocode — วิธีทำแบบย่อ</summary><pre><code>for i from 0 to n−1:
     if values[i] = target: return i
 return NOT_FOUND</code></pre></details><p class="remember"><strong>จำง่าย / ระวัง:</strong> ไม่ต้องเรียงข้อมูลก่อน; ถ้าค่าซ้ำจะคืนตัวแรกในวิธีนี้</p><div class="algo-quiz"><strong>ลองตอบ:</strong> หา 2 ในรายการนี้ต้องตรวจทั้งหมดกี่ตัว?<details><summary>เปิดเฉลย</summary><p>4 ตัว: 8, 3, 9, 2</p></details></div></article>
-<article class="kw-card important algorithm-card" id="algo-binary" data-keywords="algorithm อัลกอริทึม ค้นหาโดยแบ่งครึ่ง"><div class="kw-header"><span class="kw-term">Binary Search</span><span class="kw-thai">ค้นหาโดยแบ่งครึ่ง</span><span class="kw-badge imp">สำคัญ</span></div><p class="kw-meaning">เปิดตรงกลาง แล้วทิ้งครึ่งที่ไม่มีคำตอบ เหมือนเปิดพจนานุกรม</p><p class="algo-io">เข้า: [2,4,6,8,10,12,14] เรียงจากน้อยไปมาก, target = 12 • ออก: index = 5</p><div class="kw-example math-example">\[m=\left\lfloor\frac{l+r}{2}\right\rfloor,\quad T(n)=O(\log n)\]</div><figure class="concept-animation animated-source"><div class="animation-toolbar"><span>GIF จากเว็บ</span><button type="button" class="motion-toggle" aria-pressed="false">เล่น GIF</button></div><img src="glossary-assets/alg-binary-poster.png" data-gif="glossary-assets/alg-binary.gif" data-still="glossary-assets/alg-binary-poster.png" loading="lazy" alt="ตัดช่วงค้นหาครึ่งหนึ่งในแต่ละรอบ โดยข้อมูลต้องเรียงลำดับก่อน"><figcaption><strong>อ่านภาพนี้:</strong> ตัดช่วงค้นหาครึ่งหนึ่งในแต่ละรอบ โดยข้อมูลต้องเรียงลำดับก่อน<br><small><a href="https://commons.wikimedia.org/wiki/File:Binary-search-work.gif" target="_blank" rel="noopener">Binary-search-work.gif</a> — Mazen Embaby · <a href="https://creativecommons.org/licenses/by-sa/4.0" target="_blank" rel="noopener">License</a></small></figcaption></figure><div class="algo-trace"><strong>ลองตามตัวอย่าง</strong><ol class="algo-steps"><li class="algo-step" >l = 0, r = 6 → m = 3, ค่า 8</li><li class="algo-step" hidden>12 &gt; 8 → เลือกฝั่งขวา: l = 4, r = 6</li><li class="algo-step" hidden>m = 5, ค่า 12 → พบ</li><li class="algo-step" hidden>คืน index 5 (นับจาก 0)</li></ol><div class="trace-controls"><button type="button" data-step="-1" disabled>ขั้นก่อนหน้า</button><span class="trace-progress" role="status">1 / 4</span><button type="button" data-step="1">ขั้นถัดไป</button></div></div><details class="algo-code"><summary>ดู pseudocode — วิธีทำแบบย่อ</summary><pre><code>l ← 0; r ← n−1
+<article class="kw-card important algorithm-card" id="algo-binary" data-keywords="algorithm อัลกอริทึม ค้นหาโดยแบ่งครึ่ง"><div class="kw-header"><span class="kw-term">Binary Search</span><span class="kw-thai">ค้นหาโดยแบ่งครึ่ง</span><span class="kw-badge imp">สำคัญ</span></div><p class="kw-meaning">เปิดตรงกลาง แล้วทิ้งครึ่งที่ไม่มีคำตอบ เหมือนเปิดพจนานุกรม</p><p class="algo-io">เข้า: [2,4,6,8,10,12,14] เรียงจากน้อยไปมาก, target = 12 • ออก: index = 5</p><div class="kw-example math-example">\[m=\left\lfloor\frac{l+r}{2}\right\rfloor,\quad T(n)=O(\log n)\]</div><figure class="concept-animation animated-source"><div class="animation-toolbar"><span>GIF จากเว็บ</span><button type="button" class="motion-toggle" aria-pressed="false">เล่น GIF</button></div><img src="glossary-assets/alg-dijkstra-poster.png" data-gif="glossary-assets/alg-binary.gif" data-still="glossary-assets/alg-dijkstra-poster.png" loading="lazy" alt="ตัดช่วงค้นหาครึ่งหนึ่งในแต่ละรอบ โดยข้อมูลต้องเรียงลำดับก่อน"><figcaption><strong>อ่านภาพนี้:</strong> ตัดช่วงค้นหาครึ่งหนึ่งในแต่ละรอบ โดยข้อมูลต้องเรียงลำดับก่อน<br><small><a href="https://commons.wikimedia.org/wiki/File:Dijkstra_Animation.gif" target="_blank" rel="noopener">Binary-search-work.gif</a> — Mazen Embaby · <a href="https://creativecommons.org/licenses/by-sa/4.0" target="_blank" rel="noopener">License</a></small></figcaption></figure><div class="algo-trace"><strong>ลองตามตัวอย่าง</strong><ol class="algo-steps"><li class="algo-step" >l = 0, r = 6 → m = 3, ค่า 8</li><li class="algo-step" hidden>12 &gt; 8 → เลือกฝั่งขวา: l = 4, r = 6</li><li class="algo-step" hidden>m = 5, ค่า 12 → พบ</li><li class="algo-step" hidden>คืน index 5 (นับจาก 0)</li></ol><div class="trace-controls"><button type="button" data-step="-1" disabled>ขั้นก่อนหน้า</button><span class="trace-progress" role="status">1 / 4</span><button type="button" data-step="1">ขั้นถัดไป</button></div></div><details class="algo-code"><summary>ดู pseudocode — วิธีทำแบบย่อ</summary><pre><code>l ← 0; r ← n−1
 while l ≤ r:
     m ← floor((l+r)/2)
     if values[m] = target: return m
@@ -1541,7 +1307,7 @@ while queue not empty:
             push(dist[v],v)
 return distances and parents</code></pre></details><p class="remember"><strong>จำง่าย / ระวัง:</strong> กราฟตัวอย่างเป็นขอบสองทาง; ต้องระบุทิศทางและหน่วยน้ำหนักในงานจริง</p><div class="algo-quiz"><strong>ลองตอบ:</strong> ถ้าขอบบางเส้นน้ำหนักติดลบ ใช้วิธีนี้ตรง ๆ ได้ไหม?<details><summary>เปิดเฉลย</summary><p>ไม่ได้ Dijkstra ต้องใช้ขอบน้ำหนักไม่ติดลบ</p></details></div></article>
 </div>
-<section class="category" data-cat="ds"><div class="category-header"><h2>🗂️ Data Structures</h2><span class="category-count"></span></div><p class="algo-intro">โครงสร้างข้อมูล • อ่านแนวคิด แล้วกดดูตัวอย่างทีละขั้น ก่อนลองตอบคำถาม • ตัวเลขและตำแหน่งหน่วยความจำในตัวอย่างเป็นแบบจำลองเพื่อเรียนรู้</p>
+<section class="category" data-cat="ds"><div class="category-header"><h2> Data Structures</h2><span class="category-count"></span></div><p class="algo-intro">โครงสร้างข้อมูล • อ่านแนวคิด แล้วกดดูตัวอย่างทีละขั้น ก่อนลองตอบคำถาม • ตัวเลขและตำแหน่งหน่วยความจำในตัวอย่างเป็นแบบจำลองเพื่อเรียนรู้</p>
 <article class="kw-card important ce-card" id="ce-array" data-keywords="computer engineering วิศวกรรมคอมพิวเตอร์ ds"><div class="kw-header"><span class="kw-term">Array</span><span class="kw-thai">ช่องข้อมูลเรียงติดกัน</span><span class="kw-badge imp">สำคัญ</span></div><p class="kw-meaning">เหมือนล็อกเกอร์มีหมายเลข จึงเปิดช่องที่ต้องการได้ทันที</p><div class="kw-example math-example">\[\operatorname{address}(a_i)=\operatorname{base}+i\cdot s\]</div><div class="algo-trace"><strong>ลองตามตัวอย่าง</strong><ol class="algo-steps"><li class="algo-step" >สมมติแต่ละสมาชิก 4 bytes และเริ่มที่ address 1000</li><li class="algo-step" hidden>a[0] อยู่ 1000; a[1] อยู่ 1004</li><li class="algo-step" hidden>a[2] อยู่ 1008 → อ่านค่าได้โดยคำนวณตำแหน่ง</li><li class="algo-step" hidden>ถ้าจะแทรกกลาง array อาจต้องเลื่อนสมาชิกด้านหลัง</li></ol><div class="trace-controls"><button type="button" data-step="-1" disabled>ขั้นก่อนหน้า</button><span class="trace-progress" role="status">1 / 4</span><button type="button" data-step="1">ขั้นถัดไป</button></div></div><details class="algo-code"><summary>ดูโค้ด / แบบจำลองสั้น ๆ</summary><pre><code>values = [10,20,30]
 print(values[2])  # 30; index starts at 0</code></pre></details><p class="remember"><strong>จำง่าย / ระวัง:</strong> การเข้าถึง index เป็น O(1); การแทรกกลางโดยเลื่อนค่าเป็น O(n) นี่คือตัวอย่าง array ไม่ใช่รายละเอียดภายใน Python list ทุกอย่าง</p><div class="algo-quiz"><strong>ลองตอบ:</strong> ถ้าแต่ละช่อง 4 bytes, a[3] อยู่ที่ไหน?<details><summary>เปิดเฉลย</summary><p>1012 เพราะ 1000 + 3×4</p></details></div><p class="ce-ref"><a href="https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-fall-2011/" target="_blank" rel="noopener">อ่านต่อจากแหล่งอ้างอิง</a></p></article>
 <article class="kw-card important ce-card" id="ce-linked" data-keywords="computer engineering วิศวกรรมคอมพิวเตอร์ ds"><div class="kw-header"><span class="kw-term">Linked List</span><span class="kw-thai">รายการที่โยงหากัน</span><span class="kw-badge imp">สำคัญ</span></div><p class="kw-meaning">แต่ละโหนดเก็บค่าและที่อยู่ของโหนดถัดไป เหมือนตามลายแทง</p><div class="kw-example math-example">\[T_{\mathrm{access}}(n)=O(n)\]</div><figure class="concept-animation static-source"><div class="animation-toolbar"><span>ภาพ จากเว็บ</span></div><img src="glossary-assets/ce-linked.svg"  loading="lazy" alt="แต่ละโหนดเก็บค่าและลิงก์ไปโหนดถัดไป โหนดท้ายชี้ไป null"><figcaption><strong>อ่านภาพนี้:</strong> แต่ละโหนดเก็บค่าและลิงก์ไปโหนดถัดไป โหนดท้ายชี้ไป null<br><small><a href="https://commons.wikimedia.org/wiki/File:Singly-linked-list.svg" target="_blank" rel="noopener">Singly-linked-list.svg</a> — Vectorization: Lasindi · <a href="https://commons.wikimedia.org/wiki/Help:Public_domain" target="_blank" rel="noopener">License</a></small></figcaption></figure><div class="algo-trace"><strong>ลองตามตัวอย่าง</strong><ol class="algo-steps"><li class="algo-step" >head ชี้ไปโหนด 12</li><li class="algo-step" hidden>โหนด 12 มี next ชี้ไป 99</li><li class="algo-step" hidden>โหนด 99 ชี้ไป 37; โหนด 37 ชี้ null</li><li class="algo-step" hidden>หาค่าตัวที่สามต้องเดินตาม next สองครั้ง</li></ol><div class="trace-controls"><button type="button" data-step="-1" disabled>ขั้นก่อนหน้า</button><span class="trace-progress" role="status">1 / 4</span><button type="button" data-step="1">ขั้นถัดไป</button></div></div><details class="algo-code"><summary>ดูโค้ด / แบบจำลองสั้น ๆ</summary><pre><code>node ← head
@@ -1561,7 +1327,7 @@ print(phone[&quot;Ben&quot;])  # 082</code></pre></details><p class="remember"><
 <article class="kw-card important ce-card" id="ce-tree" data-keywords="computer engineering วิศวกรรมคอมพิวเตอร์ ds"><div class="kw-header"><span class="kw-term">Tree &amp; Graph</span><span class="kw-thai">ลำดับชั้นและความเชื่อมโยง</span><span class="kw-badge imp">สำคัญ</span></div><p class="kw-meaning">Tree เหมาะกับโครงสร้างลำดับชั้น ส่วน Graph แทนความสัมพันธ์ทั่วไป</p><div class="kw-example math-example">\[|E|=|V|-1\quad\text{for a finite undirected tree}\]</div><div class="algo-trace"><strong>ลองตามตัวอย่าง</strong><ol class="algo-steps"><li class="algo-step" >Tree ตัวอย่าง: A มีลูก B,C; B มีลูก D</li><li class="algo-step" hidden>มี 4 โหนด และ 3 ขอบ เชื่อมครบและไม่มีวงจร</li><li class="algo-step" hidden>ถ้าเพิ่มขอบ C–D จะมีวงจร กลายเป็น graph ที่ไม่ใช่ tree</li><li class="algo-step" hidden>BFS หรือ DFS ใช้สำรวจความเชื่อมโยงได้</li></ol><div class="trace-controls"><button type="button" data-step="-1" disabled>ขั้นก่อนหน้า</button><span class="trace-progress" role="status">1 / 4</span><button type="button" data-step="1">ขั้นถัดไป</button></div></div><details class="algo-code"><summary>ดูโค้ด / แบบจำลองสั้น ๆ</summary><pre><code>neighbors = {&quot;A&quot;:[&quot;B&quot;,&quot;C&quot;], &quot;B&quot;:[&quot;A&quot;,&quot;D&quot;],
              &quot;C&quot;:[&quot;A&quot;], &quot;D&quot;:[&quot;B&quot;]}</code></pre></details><p class="remember"><strong>จำง่าย / ระวัง:</strong> Graph อาจมีทิศทาง น้ำหนัก หรือวงจร; จำนวนขอบ n−1 อย่างเดียวไม่พอจะสรุปว่าเป็น tree</p><div class="algo-quiz"><strong>ลองตอบ:</strong> Tree ที่มี 6 โหนดมีขอบกี่เส้น?<details><summary>เปิดเฉลย</summary><p>5 เส้น สำหรับ tree ไม่กำกับที่เชื่อมครบ</p></details></div><p class="ce-ref"><a href="https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-fall-2011/" target="_blank" rel="noopener">อ่านต่อจากแหล่งอ้างอิง</a></p></article>
 </section>
-<section class="category" data-cat="memory"><div class="category-header"><h2>💻 Programming &amp; Memory</h2><span class="category-count"></span></div><p class="algo-intro">โปรแกรมและหน่วยความจำ • อ่านแนวคิด แล้วกดดูตัวอย่างทีละขั้น ก่อนลองตอบคำถาม • ตัวเลขและตำแหน่งหน่วยความจำในตัวอย่างเป็นแบบจำลองเพื่อเรียนรู้</p>
+<section class="category" data-cat="memory"><div class="category-header"><h2> Programming &amp; Memory</h2><span class="category-count"></span></div><p class="algo-intro">โปรแกรมและหน่วยความจำ • อ่านแนวคิด แล้วกดดูตัวอย่างทีละขั้น ก่อนลองตอบคำถาม • ตัวเลขและตำแหน่งหน่วยความจำในตัวอย่างเป็นแบบจำลองเพื่อเรียนรู้</p>
 <article class="kw-card important ce-card" id="ce-pointer" data-keywords="computer engineering วิศวกรรมคอมพิวเตอร์ memory"><div class="kw-header"><span class="kw-term">Pointer</span><span class="kw-thai">ตัวแปรที่เก็บที่อยู่</span><span class="kw-badge imp">สำคัญ</span></div><p class="kw-meaning">เหมือนจดเลขห้องไว้ ไม่ใช่เก็บของในห้องไว้เอง</p><div class="kw-example math-example">\[p=\&amp;x,\quad *p=x\]</div><div class="algo-trace"><strong>ลองตามตัวอย่าง</strong><ol class="algo-steps"><li class="algo-step" >ประกาศ x = 10</li><li class="algo-step" hidden>p = &amp;x → p เก็บ address ของ x</li><li class="algo-step" hidden>*p = 20 → เขียนผ่าน address ไปยัง x</li><li class="algo-step" hidden>ตอนนี้ x = 20; p ยังชี้ที่เดิม</li></ol><div class="trace-controls"><button type="button" data-step="-1" disabled>ขั้นก่อนหน้า</button><span class="trace-progress" role="status">1 / 4</span><button type="button" data-step="1">ขั้นถัดไป</button></div></div><details class="algo-code"><summary>ดูโค้ด / แบบจำลองสั้น ๆ</summary><pre><code>// C
 int x = 10;
 int *p = &amp;x;
@@ -1574,7 +1340,7 @@ else { *p = 7; free(p); p = NULL; }</code></pre></details><p class="remember"><s
 free(p);
 p = NULL;  // aliases elsewhere still need care</code></pre></details><p class="remember"><strong>จำง่าย / ระวัง:</strong> อย่าอ่านข้อมูลหลัง free และอย่า free พื้นที่เดียวกันซ้ำ</p><div class="algo-quiz"><strong>ลองตอบ:</strong> ตั้ง p = NULL แก้ pointer สำเนาทั้งหมดด้วยไหม?<details><summary>เปิดเฉลย</summary><p>ไม่ pointer อีกตัวที่เคยชี้พื้นที่เดียวกันยังอาจ dangling</p></details></div><p class="ce-ref"><a href="https://pages.cs.wisc.edu/~remzi/OSTEP/" target="_blank" rel="noopener">อ่านต่อจากแหล่งอ้างอิง</a></p></article>
 </section>
-<section class="category" data-cat="digital"><div class="category-header"><h2>🔌 Digital Logic</h2><span class="category-count"></span></div><p class="algo-intro">เลขฐานและวงจรดิจิทัล • อ่านแนวคิด แล้วกดดูตัวอย่างทีละขั้น ก่อนลองตอบคำถาม • ตัวเลขและตำแหน่งหน่วยความจำในตัวอย่างเป็นแบบจำลองเพื่อเรียนรู้</p>
+<section class="category" data-cat="digital"><div class="category-header"><h2> Digital Logic</h2><span class="category-count"></span></div><p class="algo-intro">เลขฐานและวงจรดิจิทัล • อ่านแนวคิด แล้วกดดูตัวอย่างทีละขั้น ก่อนลองตอบคำถาม • ตัวเลขและตำแหน่งหน่วยความจำในตัวอย่างเป็นแบบจำลองเพื่อเรียนรู้</p>
 <article class="kw-card important ce-card" id="ce-binary" data-keywords="computer engineering วิศวกรรมคอมพิวเตอร์ digital"><div class="kw-header"><span class="kw-term">Binary &amp; Hexadecimal</span><span class="kw-thai">เลขฐานสองและฐานสิบหก</span><span class="kw-badge imp">สำคัญ</span></div><p class="kw-meaning">คอมพิวเตอร์แทนข้อมูลด้วยบิต; hexadecimal ช่วยย่อกลุ่มละ 4 บิต</p><div class="kw-example math-example">\[(1101)_2=1\cdot2^3+1\cdot2^2+0\cdot2^1+1\cdot2^0=13\]</div><div class="algo-trace"><strong>ลองตามตัวอย่าง</strong><ol class="algo-steps"><li class="algo-step" >เลข 1101₂ มีตำแหน่งน้ำหนัก 8,4,2,1</li><li class="algo-step" hidden>รวมตำแหน่งที่เป็น 1 → 8+4+1 = 13</li><li class="algo-step" hidden>เลข 13 ฐานสิบเขียนเป็น D ในฐานสิบหก</li><li class="algo-step" hidden>1111₂ = F₁₆; 8 bits unsigned แทนค่า 0 ถึง 255</li></ol><div class="trace-controls"><button type="button" data-step="-1" disabled>ขั้นก่อนหน้า</button><span class="trace-progress" role="status">1 / 4</span><button type="button" data-step="1">ขั้นถัดไป</button></div></div><details class="algo-code"><summary>ดูโค้ด / แบบจำลองสั้น ๆ</summary><pre><code>print(bin(13))  # 0b1101
 print(hex(13))  # 0xd</code></pre></details><p class="remember"><strong>จำง่าย / ระวัง:</strong> signed integer ใช้การแทนค่าอีกแบบ; ขนาดและ signedness มีผลต่อช่วงค่า</p><div class="algo-quiz"><strong>ลองตอบ:</strong> unsigned 8 bits แทนได้ทั้งหมดกี่ค่า?<details><summary>เปิดเฉลย</summary><p>256 ค่า คือ 2⁸ ตั้งแต่ 0 ถึง 255</p></details></div><p class="ce-ref"><a href="https://www.acm.org/binaries/content/assets/education/ce2016-final-report.pdf" target="_blank" rel="noopener">อ่านต่อจากแหล่งอ้างอิง</a></p></article>
 <article class="kw-card important ce-card" id="ce-gates" data-keywords="computer engineering วิศวกรรมคอมพิวเตอร์ digital"><div class="kw-header"><span class="kw-term">Boolean &amp; Logic Gates</span><span class="kw-thai">กติกาของ 0 และ 1</span><span class="kw-badge imp">สำคัญ</span></div><p class="kw-meaning">AND ต้องจริงทั้งคู่; OR จริงอย่างน้อยหนึ่ง; NOT กลับค่า</p><div class="kw-example math-example">\[A\land B,\quad A\lor B,\quad\neg A\]</div><figure class="concept-animation animated-source"><div class="animation-toolbar"><span>GIF จากเว็บ</span><button type="button" class="motion-toggle" aria-pressed="false">เล่น GIF</button></div><img src="glossary-assets/ce-gate-poster.png" data-gif="glossary-assets/ce-gate.gif" data-still="glossary-assets/ce-gate-poster.png" loading="lazy" alt="วงจร OR ให้ผลเป็น 1 เมื่อมีอินพุตอย่างน้อยหนึ่งฝั่งเป็น 1"><figcaption><strong>อ่านภาพนี้:</strong> วงจร OR ให้ผลเป็น 1 เมื่อมีอินพุตอย่างน้อยหนึ่งฝั่งเป็น 1<br><small><a href="https://commons.wikimedia.org/wiki/File:Animated_wired_OR_diode_logic.gif" target="_blank" rel="noopener">Animated_wired_OR_diode_logic.gif</a> — Em3rgent0rdr · <a href="http://creativecommons.org/publicdomain/zero/1.0/deed.en" target="_blank" rel="noopener">License</a></small></figcaption></figure><div class="algo-trace"><strong>ลองตามตัวอย่าง</strong><ol class="algo-steps"><li class="algo-step" >A=0,B=0 → AND=0, OR=0</li><li class="algo-step" hidden>A=1,B=0 → AND=0, OR=1</li><li class="algo-step" hidden>A=1,B=1 → AND=1, OR=1</li><li class="algo-step" hidden>NOT(1)=0; XOR(1,1)=0 เพราะ XOR ต้องต่างกัน</li></ol><div class="trace-controls"><button type="button" data-step="-1" disabled>ขั้นก่อนหน้า</button><span class="trace-progress" role="status">1 / 4</span><button type="button" data-step="1">ขั้นถัดไป</button></div></div><details class="algo-code"><summary>ดูโค้ด / แบบจำลองสั้น ๆ</summary><pre><code>A = True; B = False
@@ -1584,7 +1350,7 @@ print(A or B)   # True</code></pre></details><p class="remember"><strong>จำ�
 if rising_edge(clock):
     Q_next = D</code></pre></details><p class="remember"><strong>จำง่าย / ระวัง:</strong> สัญญาณต้องผ่านข้อกำหนด setup/hold time; latch มีพฤติกรรมต่างจาก flip-flop</p><div class="algo-quiz"><strong>ลองตอบ:</strong> D เปลี่ยนเมื่อไรก็ทำให้ Q เปลี่ยนทันทีไหม?<details><summary>เปิดเฉลย</summary><p>ไม่ สำหรับ flip-flop แบบนี้ Q รับ D ที่ขอบ clock ที่กำหนด</p></details></div><p class="ce-ref"><a href="https://ocw.mit.edu/courses/6-004-computation-structures-spring-2017/" target="_blank" rel="noopener">อ่านต่อจากแหล่งอ้างอิง</a></p></article>
 </section>
-<section class="category" data-cat="architecture"><div class="category-header"><h2>🧠 Computer Architecture</h2><span class="category-count"></span></div><p class="algo-intro">CPU และระบบหน่วยความจำ • อ่านแนวคิด แล้วกดดูตัวอย่างทีละขั้น ก่อนลองตอบคำถาม • ตัวเลขและตำแหน่งหน่วยความจำในตัวอย่างเป็นแบบจำลองเพื่อเรียนรู้</p>
+<section class="category" data-cat="architecture"><div class="category-header"><h2> Computer Architecture</h2><span class="category-count"></span></div><p class="algo-intro">CPU และระบบหน่วยความจำ • อ่านแนวคิด แล้วกดดูตัวอย่างทีละขั้น ก่อนลองตอบคำถาม • ตัวเลขและตำแหน่งหน่วยความจำในตัวอย่างเป็นแบบจำลองเพื่อเรียนรู้</p>
 <article class="kw-card important ce-card" id="ce-cpu" data-keywords="computer engineering วิศวกรรมคอมพิวเตอร์ architecture"><div class="kw-header"><span class="kw-term">CPU, Registers &amp; Instructions</span><span class="kw-thai">คำสั่งทำงานในเครื่องอย่างไร</span><span class="kw-badge imp">สำคัญ</span></div><p class="kw-meaning">CPU อ่านคำสั่ง ตีความ และทำงาน โดย register เป็นที่เก็บค่าขนาดเล็กใกล้หน่วยคำนวณ</p><div class="kw-example math-example">\[R_3\leftarrow R_1+R_2\]</div><div class="algo-trace"><strong>ลองตามตัวอย่าง</strong><ol class="algo-steps"><li class="algo-step" >สมมติ R₁=2, R₂=3 และคำสั่ง ADD R₃,R₁,R₂</li><li class="algo-step" hidden>Fetch: อ่านคำสั่งจากตำแหน่งที่ program counter ชี้</li><li class="algo-step" hidden>Decode: รู้ว่าต้องบวกค่าใน R₁ กับ R₂</li><li class="algo-step" hidden>Execute: ได้ R₃=5 แล้วดำเนินคำสั่งต่อ</li></ol><div class="trace-controls"><button type="button" data-step="-1" disabled>ขั้นก่อนหน้า</button><span class="trace-progress" role="status">1 / 4</span><button type="button" data-step="1">ขั้นถัดไป</button></div></div><details class="algo-code"><summary>ดูโค้ด / แบบจำลองสั้น ๆ</summary><pre><code># illustrative assembly syntax
 LOAD R1, 2
 LOAD R2, 3
@@ -1596,7 +1362,7 @@ for value in values:
 latency = finish_time - start_time
 throughput = completed_jobs / elapsed_time</code></pre></details><p class="remember"><strong>จำง่าย / ระวัง:</strong> ผลจริงขึ้นกับคอขวด overhead และส่วนที่ทำขนานได้</p><div class="algo-quiz"><strong>ลองตอบ:</strong> เพิ่มจำนวนเครื่องทำให้ latency ของแต่ละงานลดเสมอไหม?<details><summary>เปิดเฉลย</summary><p>ไม่ อาจเพิ่ม throughput โดย latency ต่อชิ้นยังเท่าเดิม</p></details></div><p class="ce-ref"><a href="https://ocw.mit.edu/courses/6-004-computation-structures-spring-2017/" target="_blank" rel="noopener">อ่านต่อจากแหล่งอ้างอิง</a></p></article>
 </section>
-<section class="category" data-cat="os"><div class="category-header"><h2>⚙️ Operating Systems</h2><span class="category-count"></span></div><p class="algo-intro">ระบบปฏิบัติการและการทำงานพร้อมกัน • อ่านแนวคิด แล้วกดดูตัวอย่างทีละขั้น ก่อนลองตอบคำถาม • ตัวเลขและตำแหน่งหน่วยความจำในตัวอย่างเป็นแบบจำลองเพื่อเรียนรู้</p>
+<section class="category" data-cat="os"><div class="category-header"><h2> Operating Systems</h2><span class="category-count"></span></div><p class="algo-intro">ระบบปฏิบัติการและการทำงานพร้อมกัน • อ่านแนวคิด แล้วกดดูตัวอย่างทีละขั้น ก่อนลองตอบคำถาม • ตัวเลขและตำแหน่งหน่วยความจำในตัวอย่างเป็นแบบจำลองเพื่อเรียนรู้</p>
 <article class="kw-card important ce-card" id="ce-process" data-keywords="computer engineering วิศวกรรมคอมพิวเตอร์ os"><div class="kw-header"><span class="kw-term">Process &amp; Thread</span><span class="kw-thai">โปรแกรมที่กำลังทำงานและงานย่อย</span><span class="kw-badge imp">สำคัญ</span></div><p class="kw-meaning">Process มี address space ของตน; threads ใน process เดียวกันใช้ทรัพยากรหลายอย่างร่วมกัน</p><div class="kw-example math-example">\[\text{shared data}+\text{concurrent access}\Rightarrow\text{synchronization needed}\]</div><div class="algo-trace"><strong>ลองตามตัวอย่าง</strong><ol class="algo-steps"><li class="algo-step" >เปิดโปรแกรม → OS สร้าง process</li><li class="algo-step" hidden>process อาจมี thread อ่านไฟล์และ thread แสดงหน้าจอ</li><li class="algo-step" hidden>threads แชร์ heap แต่มี call stack ของแต่ละตัว</li><li class="algo-step" hidden>ถ้าแก้ข้อมูลร่วมกัน ต้องจัดลำดับการเข้าถึง</li></ol><div class="trace-controls"><button type="button" data-step="-1" disabled>ขั้นก่อนหน้า</button><span class="trace-progress" role="status">1 / 4</span><button type="button" data-step="1">ขั้นถัดไป</button></div></div><details class="algo-code"><summary>ดูโค้ด / แบบจำลองสั้น ๆ</summary><pre><code># conceptual
 process: shared heap
 thread A: own call stack
@@ -1611,7 +1377,7 @@ physical = frame[page]*page_size + offset</code></pre></details><p class="rememb
     counter = counter + 1
 # if multiple locks: acquire in a consistent order</code></pre></details><p class="remember"><strong>จำง่าย / ระวัง:</strong> ตัวอย่างแสดง interleaving เชิงแนวคิด; atomicity ขึ้นกับภาษา runtime และชนิด operation</p><div class="algo-quiz"><strong>ลองตอบ:</strong> มี mutex แล้วจะไม่มี deadlock แน่นอนหรือไม่?<details><summary>เปิดเฉลย</summary><p>ไม่ ถ้าถือ lock คนละตัวแล้วรอกันเป็นวงก็ยัง deadlock ได้</p></details></div><p class="ce-ref"><a href="https://pages.cs.wisc.edu/~remzi/OSTEP/" target="_blank" rel="noopener">อ่านต่อจากแหล่งอ้างอิง</a></p></article>
 </section>
-<section class="category" data-cat="networks"><div class="category-header"><h2>🌐 Networks</h2><span class="category-count"></span></div><p class="algo-intro">การสื่อสารระหว่างเครื่อง • อ่านแนวคิด แล้วกดดูตัวอย่างทีละขั้น ก่อนลองตอบคำถาม • ตัวเลขและตำแหน่งหน่วยความจำในตัวอย่างเป็นแบบจำลองเพื่อเรียนรู้</p>
+<section class="category" data-cat="networks"><div class="category-header"><h2> Networks</h2><span class="category-count"></span></div><p class="algo-intro">การสื่อสารระหว่างเครื่อง • อ่านแนวคิด แล้วกดดูตัวอย่างทีละขั้น ก่อนลองตอบคำถาม • ตัวเลขและตำแหน่งหน่วยความจำในตัวอย่างเป็นแบบจำลองเพื่อเรียนรู้</p>
 <article class="kw-card important ce-card" id="ce-ipdns" data-keywords="computer engineering วิศวกรรมคอมพิวเตอร์ networks"><div class="kw-header"><span class="kw-term">IP, Port &amp; DNS</span><span class="kw-thai">ที่อยู่เครื่อง ประตูบริการ และสมุดชื่อ</span><span class="kw-badge imp">สำคัญ</span></div><p class="kw-meaning">DNS แปลงชื่อเป็นข้อมูลเช่น IP; port แยกบริการบนเครื่องเดียวกัน</p><div class="kw-example math-example">\[\text{endpoint}=(\text{IP address},\text{port})\]</div><div class="algo-trace"><strong>ลองตามตัวอย่าง</strong><ol class="algo-steps"><li class="algo-step" >พิมพ์ชื่อเว็บไซต์ → ขอข้อมูล DNS (หรือใช้ cache)</li><li class="algo-step" hidden>ได้ IP ของ server ที่ให้บริการ</li><li class="algo-step" hidden>เชื่อมต่อ endpoint เช่น IP และ port 443 สำหรับ HTTPS</li><li class="algo-step" hidden>ชื่อเดียวอาจมีหลาย IP และ IP เดียวอาจรับหลายเว็บไซต์</li></ol><div class="trace-controls"><button type="button" data-step="-1" disabled>ขั้นก่อนหน้า</button><span class="trace-progress" role="status">1 / 4</span><button type="button" data-step="1">ขั้นถัดไป</button></div></div><details class="algo-code"><summary>ดูโค้ด / แบบจำลองสั้น ๆ</summary><pre><code># conceptual example
 name = &quot;example.com&quot;
 service_port = 443</code></pre></details><p class="remember"><strong>จำง่าย / ระวัง:</strong> IP อาจเปลี่ยนและอาจเป็น IPv4 หรือ IPv6; port 443 เป็นค่าปกติของ HTTPS แต่กำหนดอื่นได้</p><div class="algo-quiz"><strong>ลองตอบ:</strong> DNS ส่งเนื้อหาเว็บทั้งหมดกลับมาหรือไม่?<details><summary>เปิดเฉลย</summary><p>ไม่ DNS ให้ข้อมูลสำหรับหาบริการ เนื้อหาเว็บถูกขอผ่านโปรโตคอลเว็บต่อ</p></details></div><p class="ce-ref"><a href="https://developer.mozilla.org/en-US/docs/Learn_web_development/Howto/Web_mechanics/What_is_a_domain_name" target="_blank" rel="noopener">อ่านต่อจากแหล่งอ้างอิง</a></p></article>
@@ -1624,7 +1390,7 @@ need_datagrams → consider UDP</code></pre></details><p class="remember"><stron
     return response.json();
   });</code></pre></details><p class="remember"><strong>จำง่าย / ระวัง:</strong> API ไม่จำเป็นต้องเป็นเว็บหรือ JSON เสมอ; HTTP status กับ body มีหน้าที่ต่างกัน</p><div class="algo-quiz"><strong>ลองตอบ:</strong> HTTPS ทำให้เว็บไซต์ปลอดภัยทุกด้านเลยไหม?<details><summary>เปิดเฉลย</summary><p>ไม่ ปกป้องช่องทางสื่อสาร แต่ยังต้องดูสิทธิ์ การตรวจ input และความปลอดภัยฝั่งแอป</p></details></div><p class="ce-ref"><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP" target="_blank" rel="noopener">อ่านต่อจากแหล่งอ้างอิง</a></p></article>
 </section>
-<section class="category" data-cat="embedded"><div class="category-header"><h2>🤖 Circuits &amp; Embedded</h2><span class="category-count"></span></div><p class="algo-intro">วงจรและไมโครคอนโทรลเลอร์ • อ่านแนวคิด แล้วกดดูตัวอย่างทีละขั้น ก่อนลองตอบคำถาม • ตัวเลขและตำแหน่งหน่วยความจำในตัวอย่างเป็นแบบจำลองเพื่อเรียนรู้</p>
+<section class="category" data-cat="embedded"><div class="category-header"><h2> Circuits &amp; Embedded</h2><span class="category-count"></span></div><p class="algo-intro">วงจรและไมโครคอนโทรลเลอร์ • อ่านแนวคิด แล้วกดดูตัวอย่างทีละขั้น ก่อนลองตอบคำถาม • ตัวเลขและตำแหน่งหน่วยความจำในตัวอย่างเป็นแบบจำลองเพื่อเรียนรู้</p>
 <article class="kw-card important ce-card" id="ce-ohm" data-keywords="computer engineering วิศวกรรมคอมพิวเตอร์ embedded"><div class="kw-header"><span class="kw-term">Voltage, Current &amp; Resistance</span><span class="kw-thai">แรงดัน กระแส ความต้านทาน</span><span class="kw-badge imp">สำคัญ</span></div><p class="kw-meaning">แรงดันผลักให้กระแสไหล ส่วนความต้านทานจำกัดกระแสในแบบจำลองตัวต้านทาน</p><div class="kw-example math-example">\[V=IR,\quad P=VI\]</div><div class="algo-trace"><strong>ลองตามตัวอย่าง</strong><ol class="algo-steps"><li class="algo-step" >ให้แรงดัน 5 V คร่อม resistor 1,000 Ω</li><li class="algo-step" hidden>กระแส I=5/1,000=0.005 A=5 mA</li><li class="algo-step" hidden>กำลัง P=5×0.005=0.025 W</li><li class="algo-step" hidden>เลือกอุปกรณ์ตามพิกัดและวงจรจริง</li></ol><div class="trace-controls"><button type="button" data-step="-1" disabled>ขั้นก่อนหน้า</button><span class="trace-progress" role="status">1 / 4</span><button type="button" data-step="1">ขั้นถัดไป</button></div></div><details class="algo-code"><summary>ดูโค้ด / แบบจำลองสั้น ๆ</summary><pre><code>V = 5
 R = 1000
 I = V/R  # amperes
@@ -1640,7 +1406,7 @@ main_loop():
 Serial.begin(9600);
 Serial.println(&quot;Hello&quot;);</code></pre></details><p class="remember"><strong>จำง่าย / ระวัง:</strong> UART, I²C และ SPI ไม่ใช่ชื่อแทนกัน; ตรวจ pinout, logic level และ datasheet ก่อนต่อจริง</p><div class="algo-quiz"><strong>ลองตอบ:</strong> I²C แยกอุปกรณ์ด้วยอะไรเป็นหลัก?<details><summary>เปิดเฉลย</summary><p>address ของอุปกรณ์; ต้องดูกรณี address ซ้ำด้วย</p></details></div><p class="ce-ref"><a href="https://docs.arduino.cc/learn/" target="_blank" rel="noopener">อ่านต่อจากแหล่งอ้างอิง</a></p></article>
 </section>
-<section class="category" data-cat="database"><div class="category-header"><h2>🗄️ Databases</h2><span class="category-count"></span></div><p class="algo-intro">จัดเก็บและค้นข้อมูล • อ่านแนวคิด แล้วกดดูตัวอย่างทีละขั้น ก่อนลองตอบคำถาม • ตัวเลขและตำแหน่งหน่วยความจำในตัวอย่างเป็นแบบจำลองเพื่อเรียนรู้</p>
+<section class="category" data-cat="database"><div class="category-header"><h2> Databases</h2><span class="category-count"></span></div><p class="algo-intro">จัดเก็บและค้นข้อมูล • อ่านแนวคิด แล้วกดดูตัวอย่างทีละขั้น ก่อนลองตอบคำถาม • ตัวเลขและตำแหน่งหน่วยความจำในตัวอย่างเป็นแบบจำลองเพื่อเรียนรู้</p>
 <article class="kw-card important ce-card" id="ce-sql" data-keywords="computer engineering วิศวกรรมคอมพิวเตอร์ database"><div class="kw-header"><span class="kw-term">SQL &amp; Relational Tables</span><span class="kw-thai">ตารางและคำสั่งค้นข้อมูล</span><span class="kw-badge imp">สำคัญ</span></div><p class="kw-meaning">เก็บข้อมูลเป็นแถวและคอลัมน์ แล้วระบุว่าต้องการแถวใดและคอลัมน์ใด</p><div class="kw-example math-example">\[\text{selection: rows}\qquad\text{projection: columns}\]</div><div class="algo-trace"><strong>ลองตามตัวอย่าง</strong><ol class="algo-steps"><li class="algo-step" >ตาราง students มี (id,name,score)</li><li class="algo-step" hidden>WHERE score ≥ 80 เลือกแถวที่ผ่าน</li><li class="algo-step" hidden>SELECT name,score เลือกคอลัมน์ที่แสดง</li><li class="algo-step" hidden>ORDER BY score DESC จัดคะแนนมากไปน้อย</li></ol><div class="trace-controls"><button type="button" data-step="-1" disabled>ขั้นก่อนหน้า</button><span class="trace-progress" role="status">1 / 4</span><button type="button" data-step="1">ขั้นถัดไป</button></div></div><details class="algo-code"><summary>ดูโค้ด / แบบจำลองสั้น ๆ</summary><pre><code>SELECT name, score
 FROM students
 WHERE score &gt;= 80
@@ -1653,7 +1419,7 @@ UPDATE accounts SET balance=balance+30 WHERE id=2;
 COMMIT;
 -- Example omits balance checks and concurrency control.</code></pre></details><p class="remember"><strong>จำง่าย / ระวัง:</strong> ต้องตรวจยอด สิทธิ์ จำนวนแถว และ isolation/locking ด้วย; transaction อย่างเดียวไม่รับประกันกติกาธุรกิจ</p><div class="algo-quiz"><strong>ลองตอบ:</strong> ถ้าเพิ่ม B ล้มเหลว แต่หัก A สำเร็จแล้วควรทำอย่างไร?<details><summary>เปิดเฉลย</summary><p>rollback transaction เพื่อไม่ให้เหลือการโอนครึ่งเดียว</p></details></div><p class="ce-ref"><a href="https://www.postgresql.org/docs/current/tutorial-transactions.html" target="_blank" rel="noopener">อ่านต่อจากแหล่งอ้างอิง</a></p></article>
 </section>
-<section class="category" data-cat="software"><div class="category-header"><h2>🛠️ Software Engineering</h2><span class="category-count"></span></div><p class="algo-intro">พัฒนาโปรแกรมให้ทำงานร่วมกันได้ • อ่านแนวคิด แล้วกดดูตัวอย่างทีละขั้น ก่อนลองตอบคำถาม • ตัวเลขและตำแหน่งหน่วยความจำในตัวอย่างเป็นแบบจำลองเพื่อเรียนรู้</p>
+<section class="category" data-cat="software"><div class="category-header"><h2> Software Engineering</h2><span class="category-count"></span></div><p class="algo-intro">พัฒนาโปรแกรมให้ทำงานร่วมกันได้ • อ่านแนวคิด แล้วกดดูตัวอย่างทีละขั้น ก่อนลองตอบคำถาม • ตัวเลขและตำแหน่งหน่วยความจำในตัวอย่างเป็นแบบจำลองเพื่อเรียนรู้</p>
 <article class="kw-card important ce-card" id="ce-git" data-keywords="computer engineering วิศวกรรมคอมพิวเตอร์ software"><div class="kw-header"><span class="kw-term">Git &amp; Version Control</span><span class="kw-thai">เก็บประวัติและรวมงาน</span><span class="kw-badge imp">สำคัญ</span></div><p class="kw-meaning">Commit เก็บ snapshot พร้อมประวัติ; branch แยกแนวงาน; merge รวมการเปลี่ยนแปลง</p><div class="kw-example math-example">\[\text{working tree}\rightarrow\text{staging}\rightarrow\text{commit}\]</div><div class="algo-trace"><strong>ลองตามตัวอย่าง</strong><ol class="algo-steps"><li class="algo-step" >แก้ไฟล์ใน working tree</li><li class="algo-step" hidden>git add เลือกสิ่งที่จะ commit</li><li class="algo-step" hidden>git commit บันทึก snapshot ในเครื่อง</li><li class="algo-step" hidden>git push ส่ง commit ไป remote; หากงานชนกันต้อง resolve conflict</li></ol><div class="trace-controls"><button type="button" data-step="-1" disabled>ขั้นก่อนหน้า</button><span class="trace-progress" role="status">1 / 4</span><button type="button" data-step="1">ขั้นถัดไป</button></div></div><details class="algo-code"><summary>ดูโค้ด / แบบจำลองสั้น ๆ</summary><pre><code>git status
 git add lesson.html
 git commit -m &quot;Add lesson&quot;
@@ -1667,7 +1433,7 @@ assert total([]) == 0</code></pre></details><p class="remember"><strong>จำ�
         raise ValueError(&quot;division by zero&quot;)
     return a/b</code></pre></details><p class="remember"><strong>จำง่าย / ระวัง:</strong> review ควรตรวจพฤติกรรมที่มีผลจริง พร้อมเหตุผลและตัวอย่าง มากกว่าดูรูปแบบโค้ดอย่างเดียว</p><div class="algo-quiz"><strong>ลองตอบ:</strong> ทำไมต้องระบุ error ใน contract?<details><summary>เปิดเฉลย</summary><p>เพื่อให้ผู้เรียกเตรียมรับกรณีผิดพลาดได้ ไม่ต้องเดาพฤติกรรม</p></details></div><p class="ce-ref"><a href="https://git-scm.com/book/en/v2" target="_blank" rel="noopener">อ่านต่อจากแหล่งอ้างอิง</a></p></article>
 </section>
-<section class="category" data-cat="security"><div class="category-header"><h2>🔐 Security</h2><span class="category-count"></span></div><p class="algo-intro">ปกป้องข้อมูลและสิทธิ์ใช้งาน • อ่านแนวคิด แล้วกดดูตัวอย่างทีละขั้น ก่อนลองตอบคำถาม • ตัวเลขและตำแหน่งหน่วยความจำในตัวอย่างเป็นแบบจำลองเพื่อเรียนรู้</p>
+<section class="category" data-cat="security"><div class="category-header"><h2> Security</h2><span class="category-count"></span></div><p class="algo-intro">ปกป้องข้อมูลและสิทธิ์ใช้งาน • อ่านแนวคิด แล้วกดดูตัวอย่างทีละขั้น ก่อนลองตอบคำถาม • ตัวเลขและตำแหน่งหน่วยความจำในตัวอย่างเป็นแบบจำลองเพื่อเรียนรู้</p>
 <article class="kw-card important ce-card" id="ce-auth" data-keywords="computer engineering วิศวกรรมคอมพิวเตอร์ security"><div class="kw-header"><span class="kw-term">Authentication &amp; Authorization</span><span class="kw-thai">ใครเป็นใคร และทำอะไรได้</span><span class="kw-badge imp">สำคัญ</span></div><p class="kw-meaning">Authentication ตรวจตัวตน; authorization ตรวจสิทธิ์ของตัวตนนั้น</p><div class="kw-example math-example">\[\text{allow}=\text{identity verified}\land\text{permission granted}\]</div><div class="algo-trace"><strong>ลองตามตัวอย่าง</strong><ol class="algo-steps"><li class="algo-step" >ผู้ใช้ login → ตรวจตัวตน</li><li class="algo-step" hidden>ระบบรู้ว่าเป็นผู้ใช้ Ann</li><li class="algo-step" hidden>Ann ขออ่านเอกสารของ Ben → ตรวจสิทธิ์ต่อ</li><li class="algo-step" hidden>แม้ login ถูกต้อง ถ้าไม่มีสิทธิ์ก็ต้องปฏิเสธ</li></ol><div class="trace-controls"><button type="button" data-step="-1" disabled>ขั้นก่อนหน้า</button><span class="trace-progress" role="status">1 / 4</span><button type="button" data-step="1">ขั้นถัดไป</button></div></div><details class="algo-code"><summary>ดูโค้ด / แบบจำลองสั้น ๆ</summary><pre><code>user ← authenticate(request)
 if not can_read(user, document): deny
 else: return document</code></pre></details><p class="remember"><strong>จำง่าย / ระวัง:</strong> อย่าเชื่อสิทธิ์ที่ client ส่งมาเอง; การตรวจหลักต้องทำในระบบที่เชื่อถือได้</p><div class="algo-quiz"><strong>ลองตอบ:</strong> login สำเร็จหมายถึงอ่านข้อมูลทุกคนได้ไหม?<details><summary>เปิดเฉลย</summary><p>ไม่ ต้องตรวจ authorization ของ resource ทุกครั้งที่จำเป็น</p></details></div><p class="ce-ref"><a href="https://pages.cs.wisc.edu/~remzi/OSTEP/" target="_blank" rel="noopener">อ่านต่อจากแหล่งอ้างอิง</a></p></article>
@@ -1680,7 +1446,7 @@ row = db.execute(
   (user_input,)
 ).fetchone()</code></pre></details><p class="remember"><strong>จำง่าย / ระวัง:</strong> placeholder syntax ขึ้นกับ driver; parameter binding สำหรับค่า ไม่ใช่การอนุญาตชื่อ table ใด ๆ</p><div class="algo-quiz"><strong>ลองตอบ:</strong> ลบเครื่องหมาย quote ออกจาก input อย่างเดียวพอไหม?<details><summary>เปิดเฉลย</summary><p>ไม่ ใช้ parameterized query และกติกาที่เหมาะกับบริบท</p></details></div><p class="ce-ref"><a href="https://cheatsheetseries.owasp.org/cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.html" target="_blank" rel="noopener">อ่านต่อจากแหล่งอ้างอิง</a></p></article>
 </section>
-<section class="category" data-cat="discrete"><div class="category-header"><h2>🧮 Discrete Math</h2><span class="category-count"></span></div><p class="algo-intro">ตรรกะ เซต และการนับ • อ่านแนวคิด แล้วกดดูตัวอย่างทีละขั้น ก่อนลองตอบคำถาม • ตัวเลขและตำแหน่งหน่วยความจำในตัวอย่างเป็นแบบจำลองเพื่อเรียนรู้</p>
+<section class="category" data-cat="discrete"><div class="category-header"><h2> Discrete Math</h2><span class="category-count"></span></div><p class="algo-intro">ตรรกะ เซต และการนับ • อ่านแนวคิด แล้วกดดูตัวอย่างทีละขั้น ก่อนลองตอบคำถาม • ตัวเลขและตำแหน่งหน่วยความจำในตัวอย่างเป็นแบบจำลองเพื่อเรียนรู้</p>
 <article class="kw-card important ce-card" id="ce-sets" data-keywords="computer engineering วิศวกรรมคอมพิวเตอร์ discrete"><div class="kw-header"><span class="kw-term">Sets &amp; Relations</span><span class="kw-thai">กลุ่มสมาชิกและความสัมพันธ์</span><span class="kw-badge imp">สำคัญ</span></div><p class="kw-meaning">Set สนใจสมาชิกโดยไม่ซ้ำ; relation บอกว่าคู่ใดมีความสัมพันธ์</p><div class="kw-example math-example">\[A\cap B=\{x:x\in A\land x\in B\},\quad A\cup B=\{x:x\in A\lor x\in B\}\]</div><div class="algo-trace"><strong>ลองตามตัวอย่าง</strong><ol class="algo-steps"><li class="algo-step" >A={1,2,3}; B={3,4}</li><li class="algo-step" hidden>intersection → {3} ที่อยู่ทั้งคู่</li><li class="algo-step" hidden>union → {1,2,3,4} ที่อยู่ฝั่งใดก็ได้</li><li class="algo-step" hidden>A−B → {1,2} ที่อยู่ A แต่ไม่อยู่ B</li></ol><div class="trace-controls"><button type="button" data-step="-1" disabled>ขั้นก่อนหน้า</button><span class="trace-progress" role="status">1 / 4</span><button type="button" data-step="1">ขั้นถัดไป</button></div></div><details class="algo-code"><summary>ดูโค้ด / แบบจำลองสั้น ๆ</summary><pre><code>A = {1,2,3}; B = {3,4}
 print(A &amp; B)  # {3}
 print(A - B)  # {1,2}</code></pre></details><p class="remember"><strong>จำง่าย / ระวัง:</strong> set ไม่รับประกันลำดับแบบรายการ; relation ใช้แทนความสัมพันธ์ เช่น prerequisite ของวิชา</p><div class="algo-quiz"><strong>ลองตอบ:</strong> {1,1,2} เป็น set ที่มีสมาชิกกี่ตัว?<details><summary>เปิดเฉลย</summary><p>2 ตัว คือ 1 และ 2 เพราะไม่นับซ้ำ</p></details></div><p class="ce-ref"><a href="https://ocw.mit.edu/courses/6-042j-mathematics-for-computer-science-spring-2015/" target="_blank" rel="noopener">อ่านต่อจากแหล่งอ้างอิง</a></p></article>
@@ -1691,64 +1457,5 @@ for value in values:
 <article class="kw-card important ce-card" id="ce-counting" data-keywords="computer engineering วิศวกรรมคอมพิวเตอร์ discrete"><div class="kw-header"><span class="kw-term">Combinatorics &amp; Probability</span><span class="kw-thai">นับทางเลือกและโอกาส</span><span class="kw-badge imp">สำคัญ</span></div><p class="kw-meaning">แยกว่าลำดับมีผลไหม และเลือกซ้ำได้ไหมก่อนใช้สูตร</p><div class="kw-example math-example">\[\binom nr=\frac{n!}{r!(n-r)!},\quad P(A)=\frac{|A|}{|\Omega|}\ \text{when outcomes are equally likely}\]</div><div class="algo-trace"><strong>ลองตามตัวอย่าง</strong><ol class="algo-steps"><li class="algo-step" >เลือก 2 คนจาก 4 คน โดยไม่สนลำดับ</li><li class="algo-step" hidden>คู่ AB กับ BA เป็นคู่เดียวกัน</li><li class="algo-step" hidden>จำนวนคู่ = C(4,2)=6</li><li class="algo-step" hidden>ถ้าสุ่มเท่าเทียมทุกคู่ โอกาสได้คู่ AB = 1/6</li></ol><div class="trace-controls"><button type="button" data-step="-1" disabled>ขั้นก่อนหน้า</button><span class="trace-progress" role="status">1 / 4</span><button type="button" data-step="1">ขั้นถัดไป</button></div></div><details class="algo-code"><summary>ดูโค้ด / แบบจำลองสั้น ๆ</summary><pre><code>from math import comb
 print(comb(4,2))  # 6</code></pre></details><p class="remember"><strong>จำง่าย / ระวัง:</strong> สูตรโอกาสแบบนับจำนวนใช้เมื่อแต่ละผลลัพธ์มีโอกาสเท่ากัน; ต้องระบุ sample space</p><div class="algo-quiz"><strong>ลองตอบ:</strong> ถ้าเป็นรหัส 2 ตำแหน่งจาก 4 ตัว เลือกซ้ำได้ ยังใช้ C(4,2) ไหม?<details><summary>เปิดเฉลย</summary><p>ไม่ ลำดับมีผลและเลือกซ้ำได้ จึงมี 4²=16 แบบ</p></details></div><p class="ce-ref"><a href="https://ocw.mit.edu/courses/6-042j-mathematics-for-computer-science-spring-2015/" target="_blank" rel="noopener">อ่านต่อจากแหล่งอ้างอิง</a></p></article>
 </section>
-<footer class="footer">คณิตศาสตร์ • Algorithms • Computer Engineering<br>ตัวอย่างเพื่อเรียนรู้ พร้อมแหล่งอ้างอิงและเครดิตภาพ • <a href="SOURCES.md">ดูแหล่งที่มา</a></footer>
-<script>
-document.querySelectorAll('.algo-trace').forEach(trace=>{
- let step=0;const steps=[...trace.querySelectorAll('.algo-step')];
- trace.querySelectorAll('[data-step]').forEach(button=>button.addEventListener('click',()=>{
-  step=Math.max(0,Math.min(steps.length-1,step+Number(button.dataset.step)));
-  steps.forEach((el,i)=>el.hidden=i!==step);
-  trace.querySelector('.algo-steps').start=step+1;
-  trace.querySelector('.trace-progress').textContent=`${step+1} / ${steps.length}`;
-  trace.querySelector('[data-step="-1"]').disabled=step===0;
-  trace.querySelector('[data-step="1"]').disabled=step===steps.length-1;
- }));
-});
-let activeCategory = 'all';
-const cards = [...document.querySelectorAll('.kw-card')];
-const searchIndex = new Map(cards.map(card => [card, ([...card.querySelectorAll('.kw-header,.kw-meaning,.kw-professor,.math-example,.remember,.algo-io,.algo-step,.algo-quiz')].map(el=>el.textContent).join(' ')+' '+card.dataset.keywords).toLowerCase()]));
-function applyFilters() {
- const q = document.getElementById('searchBox').value.toLowerCase().trim(); let count=0;
- document.querySelectorAll('.category').forEach(category=>{
-  let visible=0;
-  category.querySelectorAll('.kw-card').forEach(card=>{
-   const show=(activeCategory==='all'||category.dataset.cat===activeCategory)&&(!q||searchIndex.get(card).includes(q));
-   card.hidden=!show;if(show){visible++;count++;}
-  });category.hidden=visible===0;
- });
- document.getElementById('resultCount').textContent=count ? `แสดง ${count} จาก ${cards.length} หัวข้อ` : 'ไม่พบคำศัพท์ ลองเปลี่ยนคำค้นหรือเลือกทั้งหมด';
-}
-function filterCategory(cat, tab) {
- activeCategory=cat;
- document.getElementById('categorySelect').value=cat;
- document.querySelectorAll('.filter-tab').forEach(t=>{t.classList.toggle('active',t===tab);t.setAttribute('aria-pressed',String(t===tab));});
- applyFilters();
-}
-document.getElementById('categorySelect').addEventListener('change',e=>{const cat=e.target.value;filterCategory(cat,document.querySelector(`.filter-tab[data-category="${cat}"]`));});
-document.getElementById('searchBox').addEventListener('input',applyFilters);
-for(const [cls,id] of [['must','mustCount'],['imp','impCount'],['ok','okCount']])document.getElementById(id).textContent=document.querySelectorAll('.kw-badge.'+cls).length;
-document.querySelectorAll('.category').forEach(c=>c.querySelector('.category-count').textContent=c.querySelectorAll('.kw-card').length);
-applyFilters();
-const reduceMotion=matchMedia('(prefers-reduced-motion: reduce)');
-let globallyPaused=reduceMotion.matches;
-const images=[...document.querySelectorAll('img[data-gif]')];
-function syncImage(img) {
- const playing=!globallyPaused&&!img.dataset.paused&&img.dataset.visible==='true';
- const src=playing?img.dataset.gif:img.dataset.still;
- if(img.getAttribute('src')!==src)img.src=src;
- const button=img.closest('figure').querySelector('.motion-toggle');
- button.textContent=playing?'หยุด GIF':'เล่น GIF';button.setAttribute('aria-pressed',String(playing));
-}
-function syncAll(){images.forEach(syncImage);const b=document.getElementById('globalMotion');b.textContent=globallyPaused?'เล่นภาพเคลื่อนไหวทั้งหมด':'หยุดภาพเคลื่อนไหวทั้งหมด';b.setAttribute('aria-pressed',String(globallyPaused));}
-const observer=new IntersectionObserver(entries=>{for(const e of entries){e.target.dataset.visible=String(e.isIntersecting);syncImage(e.target);}},{threshold:.05});
-images.forEach(img=>{observer.observe(img);img.closest('figure').querySelector('.motion-toggle').addEventListener('click',()=>{
- const playing=img.getAttribute('src')===img.dataset.gif;
- if(!playing){globallyPaused=false;delete img.dataset.paused;img.dataset.visible='true';}else img.dataset.paused='true';syncAll();
-});});
-document.getElementById('globalMotion').addEventListener('click',()=>{globallyPaused=!globallyPaused;if(!globallyPaused)images.forEach(img=>delete img.dataset.paused);syncAll();});
-reduceMotion.addEventListener('change',e=>{globallyPaused=e.matches;syncAll();});
-syncAll();
-</script>
-
-</body>
-</html>
+</section>
+<footer class="footer"><span class="footer-brand">Foundations.</span><span>155 แนวคิด สำหรับการเรียนรู้ที่เข้าใจจริง</span><a href="SOURCES.md">แหล่งอ้างอิงและเครดิต</a></footer></main></div></body></html>
