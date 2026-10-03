@@ -74,18 +74,34 @@ document.querySelectorAll('.algo-trace').forEach(trace=>{
   trace.querySelector('[data-step="-1"]').disabled=step===0;trace.querySelector('[data-step="1"]').disabled=step===steps.length-1;
  }));
 });
-const reduceMotion=matchMedia('(prefers-reduced-motion: reduce)');let globallyPaused=reduceMotion.matches;
-const images=[...document.querySelectorAll('img[data-gif]')];
-function syncImage(img){
- const playing=!globallyPaused&&!img.dataset.paused&&img.dataset.visible==='true';
- const src=playing?img.dataset.gif:img.dataset.still;if(img.getAttribute('src')!==src)img.src=src;
- const button=img.closest('figure').querySelector('.motion-toggle');button.textContent=playing?'หยุด GIF':'เล่น GIF';button.setAttribute('aria-pressed',String(playing));
+const reduceMotion=matchMedia('(prefers-reduced-motion: reduce)');
+const animatedImages=[...document.querySelectorAll('img[data-gif]')];
+let motionFrame=0;
+function updateScrollFocus(){
+ motionFrame=0;
+ const top=innerHeight*.15,bottom=innerHeight*.85,center=innerHeight*.5;
+ let focused=null,best=Infinity;
+ if(!document.hidden&&!reduceMotion.matches&&!reader.hidden){
+  for(const img of animatedImages){
+   const rect=img.getBoundingClientRect();
+   const overlap=Math.min(rect.bottom,bottom)-Math.max(rect.top,top);
+   if(rect.width===0||rect.height===0||overlap<Math.min(rect.height*.35,90))continue;
+   const distance=Math.abs((rect.top+rect.bottom)/2-center);
+   if(distance<best){best=distance;focused=img;}
+  }
+ }
+ for(const img of animatedImages){
+  const playing=img===focused;
+  const src=playing?img.dataset.gif:img.dataset.still;
+  if(img.getAttribute('src')!==src)img.src=src;
+  img.dataset.playing=String(playing);
+ }
 }
-function syncAll(){images.forEach(syncImage);const button=document.getElementById('globalMotion');button.textContent=globallyPaused?'เล่นภาพเคลื่อนไหว':'หยุดภาพเคลื่อนไหว';button.setAttribute('aria-pressed',String(!globallyPaused));}
-const observer=new IntersectionObserver(entries=>{for(const e of entries){e.target.dataset.visible=String(e.isIntersecting);syncImage(e.target);}},{threshold:.05});
-images.forEach(img=>{observer.observe(img);img.closest('figure').querySelector('.motion-toggle').addEventListener('click',()=>{
- const playing=img.getAttribute('src')===img.dataset.gif;
- if(!playing){globallyPaused=false;delete img.dataset.paused;img.dataset.visible='true';}else img.dataset.paused='true';syncAll();
-});});
-document.getElementById('globalMotion').addEventListener('click',()=>{globallyPaused=!globallyPaused;if(!globallyPaused)images.forEach(img=>delete img.dataset.paused);syncAll();});
-reduceMotion.addEventListener('change',e=>{globallyPaused=e.matches;syncAll();});syncAll();routeFromHash();
+function scheduleScrollFocus(){if(!motionFrame)motionFrame=requestAnimationFrame(updateScrollFocus);}
+const motionObserver=new IntersectionObserver(scheduleScrollFocus,{rootMargin:'-15% 0px -15% 0px',threshold:[0,.25,.5,.75,1]});
+animatedImages.forEach(img=>{motionObserver.observe(img);img.addEventListener('load',scheduleScrollFocus);});
+window.addEventListener('scroll',scheduleScrollFocus,{passive:true});
+window.addEventListener('resize',scheduleScrollFocus);
+document.addEventListener('visibilitychange',updateScrollFocus);
+reduceMotion.addEventListener('change',scheduleScrollFocus);
+routeFromHash();scheduleScrollFocus();

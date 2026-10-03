@@ -22,3 +22,5 @@ Install from the browser menu or the site's Install button. On iPhone/iPad, open
 The worker stays on a coherent cached version. When a newer worker is waiting, the Update button activates it and reloads. Run `python3 scripts/build-pwa.py` after editing the site and before pushing; this refreshes the worker's content version and offline asset list.
 
 Mobile page zoom is restricted via viewport, touch-action and gesture handling. Search/select controls use 16px text to avoid iOS focus auto-zoom. Browsers may override zoom restrictions for accessibility. Pinch gestures cannot be used to zoom images; single-finger scrolling remains enabled.
+
+Animated lesson images play automatically when their image is closest to the center of the reading viewport. Only one GIF plays at a time; other images show their still preview. Background tabs and reduced-motion preferences show still images. There are no manual animation buttons.
