@@ -1,0 +1,382 @@
+[
+  {
+    "slug": "algorithm",
+    "name": "Algorithm",
+    "thai": "อัลกอริทึม = วิธีทำทีละขั้น",
+    "meaning": "เหมือนสูตรทำอาหาร: รับสิ่งตั้งต้น ทำตามกติกาที่ชัดเจน แล้วได้ผลลัพธ์",
+    "io": "เข้า: [2,4,6] • ออก: ผลรวม 12",
+    "formula": "S=\\sum_{i=1}^{3}a_i=2+4+6=12",
+    "steps": [
+      "เริ่ม total = 0",
+      "อ่าน 2 → total = 2",
+      "อ่าน 4 → total = 6",
+      "อ่าน 6 → total = 12 แล้วคืนผลลัพธ์"
+    ],
+    "code": "total ← 0\nfor value in values:\n    total ← total + value\nreturn total",
+    "question": "ถ้าเพิ่ม 3 ต่อท้าย ผลรวมเป็นเท่าไร?",
+    "answer": "15 เพราะ 12 + 3 = 15",
+    "note": "กติกาต้องชัดเจน และต้องบอกว่าเมื่อไรจบ",
+    "asset": null
+  },
+  {
+    "slug": "pseudocode",
+    "name": "Pseudocode",
+    "thai": "รหัสเทียม",
+    "meaning": "เขียนวิธีคิดให้อ่านคล้ายภาษาคน ก่อนแปลงเป็นภาษาโปรแกรม",
+    "io": "เข้า: [3,7,2] ที่ไม่ว่าง • ออก: ค่ามากสุด 7",
+    "formula": "\\max(3,7,2)=7",
+    "steps": [
+      "ตั้ง best = 3 จากสมาชิกแรก",
+      "พบ 7 > 3 → เปลี่ยน best เป็น 7",
+      "พบ 2 < 7 → เก็บ best = 7",
+      "ครบรายการ → คืน 7"
+    ],
+    "code": "best ← values[0]\nfor value in values[1:]:\n    if value > best: best ← value\nreturn best",
+    "question": "ทำไมไม่ตั้ง best = 0 เสมอ?",
+    "answer": "ถ้าทุกค่าเป็นลบ เช่น [-5,-2] จะตอบ 0 ผิด ต้องเริ่มจากค่าจริงในรายการ",
+    "note": "รหัสเทียมไม่ผูกกับ Python หรือภาษาใดภาษาหนึ่ง",
+    "asset": null
+  },
+  {
+    "slug": "iteration",
+    "name": "Iteration & Stopping Criterion",
+    "thai": "ทำซ้ำและเกณฑ์หยุด",
+    "meaning": "ทำกติกาเดิมหลายรอบ พร้อมตั้งเงื่อนไขหยุดและจำนวนรอบสูงสุด",
+    "io": "เข้า: x = 8 • ออก: ค่าแรกที่ x ≤ 1",
+    "formula": "x_{k+1}=\\frac{x_k}{2},\\quad x_0=8",
+    "steps": [
+      "เริ่ม x = 8 ยังมากกว่า 1",
+      "รอบ 1: x = 4",
+      "รอบ 2: x = 2",
+      "รอบ 3: x = 1 → ถึงเกณฑ์หยุด"
+    ],
+    "code": "x ← 8\nrepeat at most max_iter times:\n    if x ≤ 1: return x\n    x ← x / 2\nif x ≤ 1: return x\nreport \"ยังไม่ถึงเกณฑ์\"",
+    "question": "ถ้าให้ทำสูงสุด 2 รอบ จะถึงเกณฑ์หรือยัง?",
+    "answer": "ยัง: ได้ x = 2 ต้องรายงานว่ายังไม่ถึงเกณฑ์",
+    "note": "งานจริงมักใช้ tolerance วัดความคลาดเคลื่อน และ max_iter กันวนไม่จบ",
+    "asset": null
+  },
+  {
+    "slug": "complexity",
+    "name": "Time Complexity / Big O",
+    "thai": "ขนาดงานโตเร็วแค่ไหน",
+    "meaning": "ดูว่าเมื่อข้อมูลเพิ่ม งานคำนวณโตในอัตราใด ไม่ใช่จับเวลาเครื่องโดยตรง",
+    "io": "เข้า: ขนาดข้อมูล n • ออก: อัตราการเติบโตของงาน",
+    "formula": "\\log_2 n,\\quad n,\\quad n^2",
+    "steps": [
+      "n = 8 → log₂n = 3, n = 8, n² = 64",
+      "n = 16 → 4, 16, 256",
+      "n = 32 → 5, 32, 1,024",
+      "ตัวเลขนี้เทียบรูปแบบการเติบโต ไม่ใช่จำนวนคำสั่งจริงทุกโปรแกรม"
+    ],
+    "code": "one loop over n items → O(n)\ntwo full nested loops → O(n²)\nhalve the range each round → O(log n)",
+    "question": "เพิ่ม n เป็นสองเท่า งานแบบ n² เพิ่มกี่เท่า?",
+    "answer": "4 เท่า เพราะ (2n)² = 4n²",
+    "note": "Big O เป็นขอบเขตบนเชิงอัตราเติบโต; ระบุกรณี worst/average/best ให้ชัด",
+    "asset": "alg-complexity"
+  },
+  {
+    "slug": "linear",
+    "name": "Linear Search",
+    "thai": "ไล่หาทีละตัว",
+    "meaning": "เปิดดูจากต้นรายการจนพบของที่ต้องการ คล้ายไล่หาชื่อในกระดาษ",
+    "io": "เข้า: [8,3,9,2], target = 9 • ออก: index = 2 (เริ่มนับที่ 0)",
+    "formula": "T_{\\mathrm{worst}}(n)=O(n)",
+    "steps": [
+      "index 0: 8 ≠ 9 → ไปต่อ",
+      "index 1: 3 ≠ 9 → ไปต่อ",
+      "index 2: 9 = 9 → พบแล้ว",
+      "คืน index 2; ถ้าไล่ครบไม่พบ คืน NOT_FOUND"
+    ],
+    "code": "for i from 0 to n−1:\n    if values[i] = target: return i\nreturn NOT_FOUND",
+    "question": "หา 2 ในรายการนี้ต้องตรวจทั้งหมดกี่ตัว?",
+    "answer": "4 ตัว: 8, 3, 9, 2",
+    "note": "ไม่ต้องเรียงข้อมูลก่อน; ถ้าค่าซ้ำจะคืนตัวแรกในวิธีนี้",
+    "asset": null
+  },
+  {
+    "slug": "binary",
+    "name": "Binary Search",
+    "thai": "ค้นหาโดยแบ่งครึ่ง",
+    "meaning": "เปิดตรงกลาง แล้วทิ้งครึ่งที่ไม่มีคำตอบ เหมือนเปิดพจนานุกรม",
+    "io": "เข้า: [2,4,6,8,10,12,14] เรียงจากน้อยไปมาก, target = 12 • ออก: index = 5",
+    "formula": "m=\\left\\lfloor\\frac{l+r}{2}\\right\\rfloor,\\quad T(n)=O(\\log n)",
+    "steps": [
+      "l = 0, r = 6 → m = 3, ค่า 8",
+      "12 > 8 → เลือกฝั่งขวา: l = 4, r = 6",
+      "m = 5, ค่า 12 → พบ",
+      "คืน index 5 (นับจาก 0)"
+    ],
+    "code": "l ← 0; r ← n−1\nwhile l ≤ r:\n    m ← floor((l+r)/2)\n    if values[m] = target: return m\n    if values[m] < target: l ← m+1\n    else: r ← m−1\nreturn NOT_FOUND",
+    "question": "ใช้กับ [8,2,12,4] ทันทีได้ไหม?",
+    "answer": "ไม่ได้ ต้องเรียงข้อมูลก่อนจึงตัดครึ่งได้อย่างถูกต้อง",
+    "note": "สูตรเวลานี้สมมติว่าเข้าถึงสมาชิกตาม index ได้รวดเร็ว",
+    "asset": "alg-binary"
+  },
+  {
+    "slug": "bubble",
+    "name": "Bubble Sort",
+    "thai": "เรียงโดยสลับคู่ติดกัน",
+    "meaning": "ค่าที่ใหญ่ค่อย ๆ ลอยไปท้ายรายการ เหมือนฟองอากาศ",
+    "io": "เข้า: [5,1,4,2] • ออก: [1,2,4,5]",
+    "formula": "T_{\\mathrm{worst}}(n)=O(n^2)",
+    "steps": [
+      "เปรียบเทียบ 5 กับ 1 → [1,5,4,2]",
+      "เปรียบเทียบ 5 กับ 4 → [1,4,5,2]",
+      "เปรียบเทียบ 5 กับ 2 → [1,4,2,5] จบรอบแรก",
+      "รอบถัดไปสลับ 4 กับ 2 → [1,2,4,5]; รอบที่ไม่สลับจึงหยุด"
+    ],
+    "code": "for end from n−1 down to 1:\n    swapped ← false\n    for i from 0 to end−1:\n        if values[i] > values[i+1]:\n            swap(values[i], values[i+1])\n            swapped ← true\n    if not swapped: break",
+    "question": "จบรอบแรก ค่าใดไปอยู่ท้ายสุด?",
+    "answer": "5 ซึ่งเป็นค่ามากสุด",
+    "note": "เข้าใจง่าย แต่ช้ากว่าวิธีอื่นมากเมื่อรายการใหญ่",
+    "asset": "alg-bubble"
+  },
+  {
+    "slug": "merge",
+    "name": "Merge Sort",
+    "thai": "แบ่งแล้วผสาน",
+    "meaning": "แบ่งกองใหญ่เป็นกองเล็ก เรียงกองเล็ก แล้วหยิบค่าน้อยสุดมารวม",
+    "io": "เข้า: [5,1,4,2] • ออก: [1,2,4,5]",
+    "formula": "T(n)=O(n\\log n)",
+    "steps": [
+      "แบ่ง → [5,1] และ [4,2]",
+      "แบ่งต่อจนเหลือรายการละ 1 ค่า",
+      "ผสานคู่ → [1,5] และ [2,4]",
+      "ผสานจากหัวกองที่เล็กกว่า → [1,2,4,5]"
+    ],
+    "code": "merge_sort(values):\n    if length(values) ≤ 1: return values\n    left, right ← split in half\n    return merge(merge_sort(left), merge_sort(right))\n# merge: หยิบหัวที่เล็กกว่า แล้วต่อส่วนที่เหลือ",
+    "question": "เมื่อผสาน [1,5] กับ [2,4] ต้องหยิบอะไรก่อน?",
+    "answer": "1 จากกองซ้าย แล้วจึง 2, 4 และ 5",
+    "note": "เวอร์ชันมาตรฐานใช้พื้นที่เสริม O(n) สำหรับผสาน",
+    "asset": "alg-merge"
+  },
+  {
+    "slug": "recursion",
+    "name": "Recursion",
+    "thai": "ฟังก์ชันเรียกตัวเอง",
+    "meaning": "แก้ปัญหาใหญ่ด้วยปัญหารูปเดิมที่เล็กลง จนถึงกรณีฐาน",
+    "io": "เข้า: จำนวนเต็ม n ≥ 0 • ออก: n!",
+    "formula": "n!=n(n-1)!,\\quad 0!=1",
+    "steps": [
+      "ต้องการ 4! → รอ 4 × 3!",
+      "3! → รอ 3 × 2!; 2! → รอ 2 × 1!",
+      "ถึง 0! = 1 แล้วคืนค่ากลับขึ้นมา",
+      "1! = 1, 2! = 2, 3! = 6, 4! = 24"
+    ],
+    "code": "factorial(n):\n    if n = 0: return 1\n    return n × factorial(n−1)",
+    "question": "ถ้าไม่มีกรณีฐาน จะเกิดอะไร?",
+    "answer": "เรียกตัวเองต่อจนผิดเงื่อนไขหรือ stack เต็ม",
+    "note": "ต้องมีกรณีฐาน และแต่ละรอบต้องเข้าใกล้กรณีฐาน",
+    "asset": null
+  },
+  {
+    "slug": "bisect",
+    "name": "Bisection Method",
+    "thai": "หารากด้วยการแบ่งช่วงครึ่ง",
+    "meaning": "รู้ว่ารากอยู่ระหว่างสองฝั่ง แล้วบีบช่วงให้เล็กลง",
+    "io": "เข้า: f(x)=x²−2 ต่อเนื่องบน [1,2], ค่าปลายต่างเครื่องหมาย • ออก: รากประมาณ √2",
+    "formula": "m=\\frac{a+b}{2},\\quad f(a)f(b)<0",
+    "steps": [
+      "[1,2] → m = 1.5, f(m) = 0.25 → เก็บ [1,1.5]",
+      "m = 1.25, f(m) = −0.4375 → เก็บ [1.25,1.5]",
+      "m = 1.375, f(m) = −0.109375 → เก็บ [1.375,1.5]",
+      "แบ่งต่อจนความกว้างครึ่งช่วง ≤ tolerance แล้วคืนจุดกลาง"
+    ],
+    "code": "check continuity and endpoint signs\nif f(a)=0: return a\nif f(b)=0: return b\nrepeat at most max_iter times:\n    m ← (a+b)/2\n    if f(m)=0 or (b−a)/2 ≤ tolerance: return m\n    if f(a)×f(m)<0: b ← m\n    else: a ← m\nreport \"ยังไม่ถึงเกณฑ์\"",
+    "question": "หลังรอบแรก ทำไมไม่เก็บ [1.5,2]?",
+    "answer": "ค่าฟังก์ชันปลายทั้งสองเป็นบวก จึงไม่คร่อมราก √2",
+    "note": "ต้องตรวจเงื่อนไขเริ่มต้น; ต่างเครื่องหมายอย่างเดียวไม่พอถ้าฟังก์ชันไม่ต่อเนื่อง",
+    "asset": "alg-bisect"
+  },
+  {
+    "slug": "newton",
+    "name": "Newton–Raphson",
+    "thai": "หารากด้วยเส้นสัมผัส",
+    "meaning": "ลากเส้นสัมผัสจากจุดปัจจุบัน ไปใช้จุดตัดแกนเป็นคำเดาใหม่",
+    "io": "เข้า: f(x)=x²−2, f′(x)=2x, x₀=1 • ออก: รากประมาณ √2",
+    "formula": "x_{k+1}=x_k-\\frac{f(x_k)}{f\\prime(x_k)}",
+    "steps": [
+      "x₀ = 1 → x₁ = 1 − (−1)/2 = 1.5",
+      "x₂ = 1.5 − 0.25/3 ≈ 1.416667",
+      "x₃ ≈ 1.414216",
+      "ตรวจ |f(x)| เล็กพอ ก่อนรายงานว่าถึงเกณฑ์"
+    ],
+    "code": "repeat at most max_iter times:\n    if abs(f(x)) ≤ tolerance: return x\n    if abs(derivative(x)) < tiny: report failure\n    x ← x − f(x)/derivative(x)\nif abs(f(x)) ≤ tolerance: return x\nreport \"ยังไม่ถึงเกณฑ์\"",
+    "question": "ถ้า x₀ = 0 ในตัวอย่างนี้จะติดปัญหาอะไร?",
+    "answer": "f′(0) = 0 ทำให้หารด้วยศูนย์",
+    "note": "อาจไม่ลู่เข้าถ้าเลือกจุดเริ่มไม่ดี และอนุพันธ์ใกล้ศูนย์ทำให้ก้าวใหญ่",
+    "asset": "alg-newton"
+  },
+  {
+    "slug": "euler",
+    "name": "Euler Method",
+    "thai": "เดินตามความชันปัจจุบัน",
+    "meaning": "ประมาณคำตอบ ODE ด้วยก้าวสั้น ๆ โดยใช้ความชันต้นก้าว",
+    "io": "เข้า: y′=−y, y(0)=1, h=0.1 • ออก: ค่า y ในเวลาต่าง ๆ",
+    "formula": "y_{k+1}=y_k+h f(t_k,y_k)",
+    "steps": [
+      "t = 0, y = 1 → ความชัน −1",
+      "t = 0.1 → y = 1 + 0.1(−1) = 0.9",
+      "t = 0.2 → y = 0.9 + 0.1(−0.9) = 0.81",
+      "t = 0.3 → y = 0.729; ค่าจริง e⁻⁰·³ ≈ 0.740818"
+    ],
+    "code": "repeat for each time step:\n    y_next ← y + h×f(t,y)\n    t ← t+h\n    y ← y_next",
+    "question": "ลดขนาดก้าว h โดยทั่วไปช่วยเรื่องใด?",
+    "answer": "ช่วยลดความคลาดเคลื่อน แต่ต้องคำนวณจำนวนก้าวมากขึ้น",
+    "note": "ก้าวที่ใหญ่เกินไปอาจทำให้ไม่เสถียร แม้คำตอบจริงไม่ระเบิด",
+    "asset": "alg-euler"
+  },
+  {
+    "slug": "rk4",
+    "name": "Runge–Kutta 4 (RK4)",
+    "thai": "ดูความชันสี่จุดก่อนก้าว",
+    "meaning": "ชั่งน้ำหนักความชันต้นก้าว กลางก้าว และปลายก้าว",
+    "io": "เข้า: y′=−y, y=1, h=0.1 • ออก: y(0.1) ≈ 0.9048375",
+    "formula": "\\begin{aligned}k_1&=f(t,y)\\\\k_2&=f(t+h/2,y+hk_1/2)\\\\k_3&=f(t+h/2,y+hk_2/2)\\\\k_4&=f(t+h,y+hk_3)\\\\y_{\\mathrm{next}}&=y+\\frac h6(k_1+2k_2+2k_3+k_4)\\end{aligned}",
+    "steps": [
+      "ต้นก้าว: k₁ = −1",
+      "กลางก้าวครั้งแรก: k₂ = −0.95",
+      "กลางก้าวครั้งที่สอง: k₃ = −0.9525; ปลายก้าว k₄ = −0.90475",
+      "รวมถ่วงน้ำหนัก → y ใหม่ = 0.9048375 (ค่าจริง ≈ 0.904837418)"
+    ],
+    "code": "compute k1, k2, k3, k4 from the formulas\ny ← y + h×(k1+2k2+2k3+k4)/6\nt ← t+h",
+    "question": "RK4 ประเมิน f กี่ครั้งต่อก้าว?",
+    "answer": "4 ครั้ง",
+    "note": "แม่นกว่า Euler ในหลายปัญหาที่ราบเรียบ แต่ยังเป็นค่าประมาณและต้องเลือก h ให้เหมาะ",
+    "asset": "alg-rk4"
+  },
+  {
+    "slug": "gradient",
+    "name": "Gradient Descent",
+    "thai": "เดินลงเขาเพื่อลดความผิดพลาด",
+    "meaning": "ปรับตัวแปรไปทิศตรงข้ามกับ gradient เพื่อให้ฟังก์ชันเล็กลง",
+    "io": "เข้า: f(x)=(x−3)², x₀=0, η=0.1 • ออก: x เข้าใกล้ 3",
+    "formula": "x_{k+1}=x_k-\\eta f\\prime(x_k),\\quad f\\prime(x)=2(x-3)",
+    "steps": [
+      "x = 0, gradient = −6 → x ใหม่ = 0.6",
+      "x = 0.6, gradient = −4.8 → x ใหม่ = 1.08",
+      "x = 1.08, gradient = −3.84 → x ใหม่ = 1.464",
+      "ทำต่อ → เข้าใกล้ x = 3 ซึ่ง f = 0"
+    ],
+    "code": "repeat at most max_iter times:\n    g ← gradient(f,x)\n    if norm(g) ≤ tolerance: return x\n    x ← x − learning_rate×g\nreport current estimate and status",
+    "question": "ทำไม gradient ติดลบแล้ว x จึงเพิ่ม?",
+    "answer": "เพราะลบค่าติดลบ: x − η(−|g|) = x + η|g|",
+    "note": "learning rate ใหญ่เกินไปอาจแกว่งหรือไม่ลู่เข้า; backpropagation เป็นวิธีหา gradient อีกส่วนหนึ่ง",
+    "asset": null
+  },
+  {
+    "slug": "gauss",
+    "name": "Gaussian Elimination",
+    "thai": "กำจัดตัวแปรทีละตัว",
+    "meaning": "จัดสมการให้เป็นขั้นบันได แล้วแทนค่ากลับจากล่างขึ้นบน",
+    "io": "เข้า: 2x+y=5 และ x−y=1 • ออก: x=2, y=1",
+    "formula": "\\begin{bmatrix}2&1&5\\\\1&-1&1\\end{bmatrix}\\ \\xrightarrow{R_2-\\frac12R_1}\\ \\begin{bmatrix}2&1&5\\\\0&-1.5&-1.5\\end{bmatrix}",
+    "steps": [
+      "เขียนสมการเป็นเมทริกซ์เสริม",
+      "กำจัด x ในแถวสอง: R₂ ← R₂ − 0.5R₁",
+      "แถวสองเหลือ −1.5y = −1.5 → y = 1",
+      "แทนกลับ 2x + 1 = 5 → x = 2"
+    ],
+    "code": "for each pivot column:\n    choose nonzero pivot (swap rows if needed)\n    eliminate entries below pivot\ncheck inconsistent / nonunique cases\nback-substitute when solution is unique",
+    "question": "ถ้า pivot เป็นศูนย์ ต้องทำอย่างไร?",
+    "answer": "หาค่าที่ไม่เป็นศูนย์ในแถวด้านล่างแล้วสลับแถว ถ้าไม่มีต้องตรวจ rank ต่อ",
+    "note": "บางระบบไม่มีคำตอบหรือมีหลายคำตอบ; อย่าหารด้วย pivot ศูนย์",
+    "asset": "alg-gauss"
+  },
+  {
+    "slug": "kmeans",
+    "name": "K-Means",
+    "thai": "จับกลุ่มแล้วเลื่อนจุดกลาง",
+    "meaning": "ให้แต่ละจุดเข้ากลุ่มที่ศูนย์กลางใกล้ที่สุด แล้วหาเฉลี่ยใหม่",
+    "io": "เข้า: [1,2,8,9], K=2, ศูนย์กลางเริ่ม 1 และ 8 • ออก: สองกลุ่ม",
+    "formula": "\\mu_j=\\frac{1}{|C_j|}\\sum_{x\\in C_j}x",
+    "steps": [
+      "ศูนย์กลางเริ่ม = 1 และ 8",
+      "จัดกลุ่มใกล้สุด → C₁={1,2}, C₂={8,9}",
+      "หาเฉลี่ย → μ₁=1.5, μ₂=8.5",
+      "จัดกลุ่มอีกครั้งยังเหมือนเดิม → หยุด"
+    ],
+    "code": "initialize K centers\nrepeat until convergence or max_iter:\n    assign each point to nearest center\n    update each center to mean of its points\n    handle empty clusters if any\nreturn groups and centers",
+    "question": "K=2 หมายถึงอะไร?",
+    "answer": "ต้องการ 2 กลุ่ม ไม่ใช่ดูเพื่อนบ้าน 2 คน",
+    "note": "เป็น unsupervised learning; จุดเริ่มและสเกลข้อมูลมีผล อาจได้ค่าต่ำสุดเฉพาะที่",
+    "asset": "alg-kmeans"
+  },
+  {
+    "slug": "knn",
+    "name": "k-Nearest Neighbors (kNN)",
+    "thai": "ถามเพื่อนบ้านใกล้ที่สุด",
+    "meaning": "ทำนายป้ายกำกับจากเสียงส่วนใหญ่ของตัวอย่างใกล้เคียง",
+    "io": "เข้า: จุดใหม่ x=4; จุด 3(A),5(A),6(B); k=3 • ออก: A",
+    "formula": "d(x,z)=|x-z|,\\quad\\widehat y=\\operatorname{mode}(y_{(1)},\\ldots,y_{(k)})",
+    "steps": [
+      "ระยะจาก 4 ถึง 3(A) = 1",
+      "ถึง 5(A) = 1; ถึง 6(B) = 2",
+      "เลือกทั้ง 3 จุด → A สองเสียง, B หนึ่งเสียง",
+      "เสียงข้างมาก → ทำนาย A"
+    ],
+    "code": "compute distances to labeled examples\nchoose k nearest examples\nreturn majority label\n# define a tie rule when votes are equal",
+    "question": "kNN ต่างจาก K-Means ตรงไหน?",
+    "answer": "kNN ใช้ข้อมูลที่มีป้ายกำกับเพื่อทำนาย; K-Means แบ่งกลุ่มโดยไม่มีป้ายกำกับ",
+    "note": "กำหนด k และกติกาเสมอให้ชัด; ควรปรับสเกลเมื่อหลายคุณลักษณะใช้หน่วยต่างกัน",
+    "asset": "alg-knn"
+  },
+  {
+    "slug": "bfs",
+    "name": "Breadth-First Search (BFS)",
+    "thai": "สำรวจทีละชั้น",
+    "meaning": "ใช้คิว: คนเข้าก่อนออกก่อน จึงไปโหนดใกล้จุดเริ่มก่อน",
+    "io": "เข้า: A–B, A–C, B–D, C–E; เริ่ม A • ออก: A,B,C,D,E",
+    "formula": "\\text{queue: FIFO},\\quad T=O(V+E)",
+    "steps": [
+      "คิว [A] → เยี่ยม A แล้วใส่ B,C",
+      "คิว [B,C] → เยี่ยม B แล้วใส่ D → [C,D]",
+      "เยี่ยม C แล้วใส่ E → [D,E]",
+      "เยี่ยม D,E → ลำดับ A,B,C,D,E"
+    ],
+    "code": "queue ← [start]; seen ← {start}\nwhile queue is not empty:\n    u ← pop_front(queue); visit(u)\n    for neighbor v in alphabetical order:\n        if v not in seen:\n            add v to seen; push_back(queue,v)",
+    "question": "ในตัวอย่างนี้ เยี่ยม C หรือ D ก่อน?",
+    "answer": "C เพราะอยู่ชั้นแรกเหมือน B ส่วน D อยู่ชั้นถัดไป",
+    "note": "ลำดับขึ้นกับลำดับเพื่อนบ้าน; BFS หาทางสั้นสุดในกราฟที่ไม่มีน้ำหนักหรือทุกขอบน้ำหนักเท่ากัน",
+    "asset": "alg-bfs"
+  },
+  {
+    "slug": "dfs",
+    "name": "Depth-First Search (DFS)",
+    "thai": "สำรวจลึกก่อนย้อนกลับ",
+    "meaning": "ไปทางหนึ่งให้สุดก่อน แล้วค่อยกลับมาลองทางอื่น",
+    "io": "เข้า: กราฟเดียวกับ BFS, เริ่ม A • ออก: A,B,D,C,E",
+    "formula": "\\text{stack: LIFO},\\quad T=O(V+E)",
+    "steps": [
+      "เยี่ยม A → ไป B ก่อน C",
+      "จาก B → ไป D; D ไม่มีเพื่อนใหม่",
+      "ย้อนกลับ B แล้ว A → ไป C",
+      "จาก C → ไป E; ลำดับ A,B,D,C,E"
+    ],
+    "code": "dfs(u):\n    mark u seen; visit(u)\n    for neighbor v in alphabetical order:\n        if v not seen: dfs(v)",
+    "question": "ทำไมต้องมี seen?",
+    "answer": "ป้องกันเยี่ยมซ้ำและวนไม่จบเมื่อกราฟมีวงจร",
+    "note": "ใช้ recursion หรือ stack ได้; DFS ไม่รับประกันทางสั้นสุด",
+    "asset": "alg-dfs"
+  },
+  {
+    "slug": "dijkstra",
+    "name": "Dijkstra’s Algorithm",
+    "thai": "หาทางรวมค่าเดินทางน้อยสุด",
+    "meaning": "เลือกโหนดที่มีระยะสะสมต่ำสุด แล้วปรับระยะเพื่อนบ้าน",
+    "io": "เข้า: A–B:1, A–C:4, B–C:2, B–D:5, C–D:1 • ออก: A→B→C→D ระยะ 4",
+    "formula": "d(v)\\leftarrow\\min\\{d(v),d(u)+w(u,v)\\}",
+    "steps": [
+      "ตั้ง d(A)=0, ที่เหลือ = ∞; จาก A ได้ B=1, C=4",
+      "เลือก B ระยะ 1 → ปรับ C=3, D=6",
+      "เลือก C ระยะ 3 → ปรับ D=4",
+      "เลือก D ระยะ 4 → ย้อน predecessor ได้ A→B→C→D"
+    ],
+    "code": "dist[start] ← 0; others ← infinity\npriority_queue ← [(0,start)]\nwhile queue not empty:\n    d,u ← pop smallest distance\n    if d ≠ dist[u]: continue\n    for edge u→v with weight w:\n        if d+w < dist[v]:\n            dist[v] ← d+w; parent[v] ← u\n            push(dist[v],v)\nreturn distances and parents",
+    "question": "ถ้าขอบบางเส้นน้ำหนักติดลบ ใช้วิธีนี้ตรง ๆ ได้ไหม?",
+    "answer": "ไม่ได้ Dijkstra ต้องใช้ขอบน้ำหนักไม่ติดลบ",
+    "note": "กราฟตัวอย่างเป็นขอบสองทาง; ต้องระบุทิศทางและหน่วยน้ำหนักในงานจริง",
+    "asset": "alg-dijkstra"
+  }
+]

@@ -1,0 +1,724 @@
+[
+  {
+    "cat": "ds",
+    "slug": "array",
+    "name": "Array",
+    "thai": "ช่องข้อมูลเรียงติดกัน",
+    "meaning": "เหมือนล็อกเกอร์มีหมายเลข จึงเปิดช่องที่ต้องการได้ทันที",
+    "formula": "\\operatorname{address}(a_i)=\\operatorname{base}+i\\cdot s",
+    "steps": [
+      "สมมติแต่ละสมาชิก 4 bytes และเริ่มที่ address 1000",
+      "a[0] อยู่ 1000; a[1] อยู่ 1004",
+      "a[2] อยู่ 1008 → อ่านค่าได้โดยคำนวณตำแหน่ง",
+      "ถ้าจะแทรกกลาง array อาจต้องเลื่อนสมาชิกด้านหลัง"
+    ],
+    "code": "values = [10,20,30]\nprint(values[2])  # 30; index starts at 0",
+    "q": "ถ้าแต่ละช่อง 4 bytes, a[3] อยู่ที่ไหน?",
+    "a": "1012 เพราะ 1000 + 3×4",
+    "note": "การเข้าถึง index เป็น O(1); การแทรกกลางโดยเลื่อนค่าเป็น O(n) นี่คือตัวอย่าง array ไม่ใช่รายละเอียดภายใน Python list ทุกอย่าง",
+    "asset": null
+  },
+  {
+    "cat": "ds",
+    "slug": "linked",
+    "name": "Linked List",
+    "thai": "รายการที่โยงหากัน",
+    "meaning": "แต่ละโหนดเก็บค่าและที่อยู่ของโหนดถัดไป เหมือนตามลายแทง",
+    "formula": "T_{\\mathrm{access}}(n)=O(n)",
+    "steps": [
+      "head ชี้ไปโหนด 12",
+      "โหนด 12 มี next ชี้ไป 99",
+      "โหนด 99 ชี้ไป 37; โหนด 37 ชี้ null",
+      "หาค่าตัวที่สามต้องเดินตาม next สองครั้ง"
+    ],
+    "code": "node ← head\nwhile node ≠ null:\n    print(node.value)\n    node ← node.next",
+    "q": "เปิดสมาชิกตัวที่ 100 ได้ทันทีเหมือน array ไหม?",
+    "a": "ไม่ได้ใน linked list ทั่วไป ต้องเดินตามลิงก์",
+    "note": "แทรกหลังโหนดที่รู้ตำแหน่งแล้วได้ O(1) แต่การค้นหาโหนดอาจใช้ O(n)",
+    "asset": "ce-linked"
+  },
+  {
+    "cat": "ds",
+    "slug": "stack",
+    "name": "Stack",
+    "thai": "เข้าใหม่ออกก่อน",
+    "meaning": "เหมือนจานซ้อนกัน เติมและหยิบจากด้านบน ใช้กับ Undo และการเรียกฟังก์ชัน",
+    "formula": "\\text{LIFO: Last In, First Out}",
+    "steps": [
+      "เริ่มกองว่าง []",
+      "push A → [A]; push B → [A,B] โดย B อยู่บนสุด",
+      "pop → ได้ B เหลือ [A]",
+      "pop อีกครั้ง → ได้ A เหลือ []"
+    ],
+    "code": "stack = []\nstack.append(\"A\")\nstack.append(\"B\")\nprint(stack.pop())  # B",
+    "q": "push 1,2,3 แล้ว pop สองครั้งได้อะไร?",
+    "a": "3 แล้ว 2",
+    "note": "ต้องตรวจว่ากองว่างก่อน pop",
+    "asset": "ce-stack"
+  },
+  {
+    "cat": "ds",
+    "slug": "queue",
+    "name": "Queue",
+    "thai": "เข้าก่อนออกก่อน",
+    "meaning": "เหมือนคิวซื้ออาหาร คนมาก่อนรับบริการก่อน ใช้กับ BFS และคิวงาน",
+    "formula": "\\text{FIFO: First In, First Out}",
+    "steps": [
+      "enqueue A → [A]",
+      "enqueue B → [A,B] โดย A อยู่หน้าคิว",
+      "dequeue → ได้ A เหลือ [B]",
+      "enqueue C → [B,C]; dequeue ถัดไปได้ B"
+    ],
+    "code": "from collections import deque\nq = deque([\"A\",\"B\"])\nprint(q.popleft())  # A\nq.append(\"C\")",
+    "q": "Queue กับ Stack นำข้อมูลออกต่างกันอย่างไร?",
+    "a": "Queue เอาของที่เข้าก่อน; Stack เอาของที่เข้าล่าสุด",
+    "note": "ใช้โครงสร้างคิวที่เหมาะสม เช่น deque เพื่อไม่ต้องเลื่อนทุกสมาชิกเวลาเอาหน้าคิวออก",
+    "asset": "ce-queue"
+  },
+  {
+    "cat": "ds",
+    "slug": "hash",
+    "name": "Hash Table",
+    "thai": "ใช้คีย์ชี้ช่องเก็บค่า",
+    "meaning": "แปลงคีย์เป็นช่องเก็บข้อมูล เหมือนสมุดโทรศัพท์ที่ค้นด้วยชื่อ",
+    "formula": "h(k)=k\\bmod m",
+    "steps": [
+      "ตัวอย่าง hash ของคีย์จำนวนเต็ม: m = 5",
+      "คีย์ 12 → ช่อง 2; คีย์ 7 → ช่อง 2 เช่นกัน",
+      "เกิด collision → ต้องเก็บทั้งสองคีย์ด้วย chaining หรือ probing",
+      "ตอนค้น 7 ต้องเทียบคีย์จริงด้วย ไม่ใช่เชื่อเลขช่องอย่างเดียว"
+    ],
+    "code": "phone = {\"Ann\":\"081\", \"Ben\":\"082\"}\nprint(phone[\"Ben\"])  # 082",
+    "q": "ถ้าคีย์สองตัว hash ได้ช่องเดียวกัน ต้องทิ้งตัวหนึ่งไหม?",
+    "a": "ไม่ ต้องใช้วิธีแก้ collision เพื่อให้เก็บและค้นทั้งสองตัวได้",
+    "note": "เวลาเฉลี่ยอาจเป็น O(1) เมื่อ hash และ load factor เหมาะสม; worst case อาจ O(n)",
+    "asset": "ce-hash"
+  },
+  {
+    "cat": "ds",
+    "slug": "tree",
+    "name": "Tree & Graph",
+    "thai": "ลำดับชั้นและความเชื่อมโยง",
+    "meaning": "Tree เหมาะกับโครงสร้างลำดับชั้น ส่วน Graph แทนความสัมพันธ์ทั่วไป",
+    "formula": "|E|=|V|-1\\quad\\text{for a finite undirected tree}",
+    "steps": [
+      "Tree ตัวอย่าง: A มีลูก B,C; B มีลูก D",
+      "มี 4 โหนด และ 3 ขอบ เชื่อมครบและไม่มีวงจร",
+      "ถ้าเพิ่มขอบ C–D จะมีวงจร กลายเป็น graph ที่ไม่ใช่ tree",
+      "BFS หรือ DFS ใช้สำรวจความเชื่อมโยงได้"
+    ],
+    "code": "neighbors = {\"A\":[\"B\",\"C\"], \"B\":[\"A\",\"D\"],\n             \"C\":[\"A\"], \"D\":[\"B\"]}",
+    "q": "Tree ที่มี 6 โหนดมีขอบกี่เส้น?",
+    "a": "5 เส้น สำหรับ tree ไม่กำกับที่เชื่อมครบ",
+    "note": "Graph อาจมีทิศทาง น้ำหนัก หรือวงจร; จำนวนขอบ n−1 อย่างเดียวไม่พอจะสรุปว่าเป็น tree",
+    "asset": null
+  },
+  {
+    "cat": "memory",
+    "slug": "pointer",
+    "name": "Pointer",
+    "thai": "ตัวแปรที่เก็บที่อยู่",
+    "meaning": "เหมือนจดเลขห้องไว้ ไม่ใช่เก็บของในห้องไว้เอง",
+    "formula": "p=\\&x,\\quad *p=x",
+    "steps": [
+      "ประกาศ x = 10",
+      "p = &x → p เก็บ address ของ x",
+      "*p = 20 → เขียนผ่าน address ไปยัง x",
+      "ตอนนี้ x = 20; p ยังชี้ที่เดิม"
+    ],
+    "code": "// C\nint x = 10;\nint *p = &x;\n*p = 20;  // x is now 20",
+    "q": "p กับ *p ต่างกันอย่างไร?",
+    "a": "p คือ address; *p คือค่าที่ตำแหน่งนั้น",
+    "note": "ห้าม dereference null หรือ pointer ที่หมดอายุ; ตัวอย่าง address ในบทนี้เป็นค่าจำลอง",
+    "asset": null
+  },
+  {
+    "cat": "memory",
+    "slug": "stackheap",
+    "name": "Stack & Heap",
+    "thai": "อายุของข้อมูลในหน่วยความจำ",
+    "meaning": "ตัวแปร local มักอยู่ใน call stack ส่วนข้อมูลที่จองแบบ dynamic มักอยู่ใน heap",
+    "formula": "\\text{allocation}\\rightarrow\\text{use}\\rightarrow\\text{release}",
+    "steps": [
+      "เรียกฟังก์ชัน → มีกรอบการทำงานสำหรับ local variables",
+      "malloc จองพื้นที่ dynamic ซึ่งอาจอยู่ต่อหลังฟังก์ชันจบ",
+      "คืนจากฟังก์ชัน → local ที่หมด lifetime ใช้ต่อไม่ได้",
+      "พื้นที่ malloc ต้องมีผู้รับผิดชอบ free เมื่อไม่ใช้งาน"
+    ],
+    "code": "// C: check before using\nint *p = malloc(sizeof *p);\nif (p == NULL) { /* handle failure */ }\nelse { *p = 7; free(p); p = NULL; }",
+    "q": "คืน pointer ไปยัง local variable ของฟังก์ชันปลอดภัยไหม?",
+    "a": "ไม่ปลอดภัยเมื่อ local หมด lifetime หลังฟังก์ชันจบ",
+    "note": "ภาษาและ compiler อาจจัดเก็บต่างกัน; C++ มักใช้ RAII/smart pointer จัดการ resource",
+    "asset": null
+  },
+  {
+    "cat": "memory",
+    "slug": "leak",
+    "name": "Memory Leak & Dangling Pointer",
+    "thai": "ลืมคืน กับชี้ของที่หมดอายุ",
+    "meaning": "Leak คือพื้นที่ที่ไม่ได้คืนตามควร; dangling pointer คือยังชี้ไปยังข้อมูลที่หมด lifetime",
+    "formula": "\\text{leaked bytes}=\\text{bytes per leak}\\times\\text{leak count}",
+    "steps": [
+      "จอง 1,024 bytes ซ้ำ 100 ครั้ง",
+      "ถ้าทำ pointer หายทุกครั้งและไม่ free → leak 102,400 bytes",
+      "ถ้า free แล้วแต่ยังอ่าน pointer เดิม → use-after-free",
+      "กำหนด ownership และคืน resource ในจุดที่เหมาะสม"
+    ],
+    "code": "// C\nfree(p);\np = NULL;  // aliases elsewhere still need care",
+    "q": "ตั้ง p = NULL แก้ pointer สำเนาทั้งหมดด้วยไหม?",
+    "a": "ไม่ pointer อีกตัวที่เคยชี้พื้นที่เดียวกันยังอาจ dangling",
+    "note": "อย่าอ่านข้อมูลหลัง free และอย่า free พื้นที่เดียวกันซ้ำ",
+    "asset": null
+  },
+  {
+    "cat": "digital",
+    "slug": "binary",
+    "name": "Binary & Hexadecimal",
+    "thai": "เลขฐานสองและฐานสิบหก",
+    "meaning": "คอมพิวเตอร์แทนข้อมูลด้วยบิต; hexadecimal ช่วยย่อกลุ่มละ 4 บิต",
+    "formula": "(1101)_2=1\\cdot2^3+1\\cdot2^2+0\\cdot2^1+1\\cdot2^0=13",
+    "steps": [
+      "เลข 1101₂ มีตำแหน่งน้ำหนัก 8,4,2,1",
+      "รวมตำแหน่งที่เป็น 1 → 8+4+1 = 13",
+      "เลข 13 ฐานสิบเขียนเป็น D ในฐานสิบหก",
+      "1111₂ = F₁₆; 8 bits unsigned แทนค่า 0 ถึง 255"
+    ],
+    "code": "print(bin(13))  # 0b1101\nprint(hex(13))  # 0xd",
+    "q": "unsigned 8 bits แทนได้ทั้งหมดกี่ค่า?",
+    "a": "256 ค่า คือ 2⁸ ตั้งแต่ 0 ถึง 255",
+    "note": "signed integer ใช้การแทนค่าอีกแบบ; ขนาดและ signedness มีผลต่อช่วงค่า",
+    "asset": null
+  },
+  {
+    "cat": "digital",
+    "slug": "gates",
+    "name": "Boolean & Logic Gates",
+    "thai": "กติกาของ 0 และ 1",
+    "meaning": "AND ต้องจริงทั้งคู่; OR จริงอย่างน้อยหนึ่ง; NOT กลับค่า",
+    "formula": "A\\land B,\\quad A\\lor B,\\quad\\neg A",
+    "steps": [
+      "A=0,B=0 → AND=0, OR=0",
+      "A=1,B=0 → AND=0, OR=1",
+      "A=1,B=1 → AND=1, OR=1",
+      "NOT(1)=0; XOR(1,1)=0 เพราะ XOR ต้องต่างกัน"
+    ],
+    "code": "A = True; B = False\nprint(A and B)  # False\nprint(A or B)   # True",
+    "q": "OR กับ XOR ให้ผลต่างกันเมื่อ A=B=1 อย่างไร?",
+    "a": "OR ให้ 1; XOR ให้ 0",
+    "note": "ภาพแสดงวงจร OR แบบไดโอด เป็นตัวอย่างหนึ่งของการทำ logic ทางไฟฟ้า",
+    "asset": "ce-gate"
+  },
+  {
+    "cat": "digital",
+    "slug": "flipflop",
+    "name": "Flip-Flop & Clock",
+    "thai": "วงจรจำค่าหนึ่งบิต",
+    "meaning": "D flip-flop แบบขอบขาขึ้นรับค่า D ที่จังหวะ clock เปลี่ยนจาก 0 เป็น 1",
+    "formula": "Q_{\\mathrm{next}}=D\\quad\\text{at the rising clock edge}",
+    "steps": [
+      "ก่อนขอบ clock: Q=0 และ D=1",
+      "ถึงขอบขาขึ้น → Q เปลี่ยนเป็น 1",
+      "D เปลี่ยนเป็น 0 ระหว่างขอบ → Q ยังเก็บ 1",
+      "ถึงขอบขาขึ้นถัดไป → Q รับ 0"
+    ],
+    "code": "# conceptual model, not hardware timing code\nif rising_edge(clock):\n    Q_next = D",
+    "q": "D เปลี่ยนเมื่อไรก็ทำให้ Q เปลี่ยนทันทีไหม?",
+    "a": "ไม่ สำหรับ flip-flop แบบนี้ Q รับ D ที่ขอบ clock ที่กำหนด",
+    "note": "สัญญาณต้องผ่านข้อกำหนด setup/hold time; latch มีพฤติกรรมต่างจาก flip-flop",
+    "asset": null
+  },
+  {
+    "cat": "architecture",
+    "slug": "cpu",
+    "name": "CPU, Registers & Instructions",
+    "thai": "คำสั่งทำงานในเครื่องอย่างไร",
+    "meaning": "CPU อ่านคำสั่ง ตีความ และทำงาน โดย register เป็นที่เก็บค่าขนาดเล็กใกล้หน่วยคำนวณ",
+    "formula": "R_3\\leftarrow R_1+R_2",
+    "steps": [
+      "สมมติ R₁=2, R₂=3 และคำสั่ง ADD R₃,R₁,R₂",
+      "Fetch: อ่านคำสั่งจากตำแหน่งที่ program counter ชี้",
+      "Decode: รู้ว่าต้องบวกค่าใน R₁ กับ R₂",
+      "Execute: ได้ R₃=5 แล้วดำเนินคำสั่งต่อ"
+    ],
+    "code": "# illustrative assembly syntax\nLOAD R1, 2\nLOAD R2, 3\nADD R3, R1, R2",
+    "q": "Register กับ RAM เป็นสิ่งเดียวกันไหม?",
+    "a": "ไม่ register อยู่ใน CPU และมีจำนวนจำกัด; RAM เก็บข้อมูลได้มากกว่า",
+    "note": "เครื่องจริงมี pipeline และรายละเอียดขึ้นกับ instruction set",
+    "asset": null
+  },
+  {
+    "cat": "architecture",
+    "slug": "cache",
+    "name": "Cache & Memory Hierarchy",
+    "thai": "เก็บของใช้บ่อยไว้ใกล้มือ",
+    "meaning": "Cache เก็บสำเนาข้อมูลบางส่วนเพื่อลดเวลาเข้าถึง RAM",
+    "formula": "\\operatorname{AMAT}=t_{\\mathrm{hit}}+r_{\\mathrm{miss}}p_{\\mathrm{miss}}",
+    "steps": [
+      "สมมติ cache hit ใช้ 1 ns",
+      "miss rate = 0.1 และ miss penalty เพิ่มอีก 50 ns",
+      "เวลาเฉลี่ย = 1 + 0.1×50 = 6 ns",
+      "อ่านข้อมูลใกล้กันหรือซ้ำกันอาจใช้ cache ได้ดีขึ้น"
+    ],
+    "code": "# sequential traversal often benefits from locality\nfor value in values:\n    total += value",
+    "q": "ลด miss rate จาก 10% เป็น 5% เวลาเฉลี่ยเป็นเท่าไร?",
+    "a": "3.5 ns ภายใต้สมมติฐานเดียวกัน",
+    "note": "ตัวเลขเป็นแบบจำลองระดับเดียว; cache ของ CPU ต่างจาก browser cache",
+    "asset": null
+  },
+  {
+    "cat": "architecture",
+    "slug": "performance",
+    "name": "Latency & Throughput",
+    "thai": "รอนานแค่ไหน กับทำได้มากแค่ไหน",
+    "meaning": "Latency วัดเวลาต่องาน; throughput วัดจำนวนงานต่อหน่วยเวลา",
+    "formula": "\\text{throughput}=\\frac{\\text{completed jobs}}{\\text{elapsed time}}",
+    "steps": [
+      "งานหนึ่งใช้เวลา 2 วินาที → latency 2 s",
+      "เครื่องเดียวทำทีละงาน → ประมาณ 0.5 งาน/s",
+      "สองเครื่องทำคู่ขนาน → ประมาณ 1 งาน/s",
+      "งานแต่ละชิ้นยังอาจใช้ 2 s เท่าเดิม แม้ throughput เพิ่ม"
+    ],
+    "code": "# measure these separately\nlatency = finish_time - start_time\nthroughput = completed_jobs / elapsed_time",
+    "q": "เพิ่มจำนวนเครื่องทำให้ latency ของแต่ละงานลดเสมอไหม?",
+    "a": "ไม่ อาจเพิ่ม throughput โดย latency ต่อชิ้นยังเท่าเดิม",
+    "note": "ผลจริงขึ้นกับคอขวด overhead และส่วนที่ทำขนานได้",
+    "asset": null
+  },
+  {
+    "cat": "os",
+    "slug": "process",
+    "name": "Process & Thread",
+    "thai": "โปรแกรมที่กำลังทำงานและงานย่อย",
+    "meaning": "Process มี address space ของตน; threads ใน process เดียวกันใช้ทรัพยากรหลายอย่างร่วมกัน",
+    "formula": "\\text{shared data}+\\text{concurrent access}\\Rightarrow\\text{synchronization needed}",
+    "steps": [
+      "เปิดโปรแกรม → OS สร้าง process",
+      "process อาจมี thread อ่านไฟล์และ thread แสดงหน้าจอ",
+      "threads แชร์ heap แต่มี call stack ของแต่ละตัว",
+      "ถ้าแก้ข้อมูลร่วมกัน ต้องจัดลำดับการเข้าถึง"
+    ],
+    "code": "# conceptual\nprocess: shared heap\nthread A: own call stack\nthread B: own call stack",
+    "q": "threads ใน process เดียวกันแชร์ทุกอย่างไหม?",
+    "a": "ไม่ แชร์หลายส่วน เช่น heap แต่แต่ละ thread มี stack และสถานะการทำงานของตน",
+    "note": "หลาย threads ไม่ได้แปลว่าจะเร็วขึ้นเสมอ และ process ยังสื่อสารกันผ่าน IPC ได้",
+    "asset": null
+  },
+  {
+    "cat": "os",
+    "slug": "scheduling",
+    "name": "Scheduling & Context Switch",
+    "thai": "แบ่งเวลา CPU ให้หลายงาน",
+    "meaning": "OS เลือกงานที่จะรัน; context switch เก็บสถานะงานเดิมและคืนสถานะงานใหม่",
+    "formula": "\\text{turnaround}=t_{\\mathrm{finish}}-t_{\\mathrm{arrival}}",
+    "steps": [
+      "สมมติ P₁ ต้องการ 4 หน่วย, P₂ ต้องการ 2 หน่วย มาพร้อมกัน",
+      "Round Robin quantum=2: รัน P₁ ช่วง 0–2",
+      "รัน P₂ ช่วง 2–4 → P₂ จบ",
+      "รัน P₁ ช่วง 4–6 → P₁ จบ; turnaround เป็น 6 และ 4"
+    ],
+    "code": "ready_queue ← [P1,P2]\nrun each job for at most one quantum\nif unfinished: enqueue it again",
+    "q": "quantum สั้นมากมีข้อเสียอะไร?",
+    "a": "context switch ถี่ ทำให้เสีย overhead มากขึ้น",
+    "note": "ตัวอย่างละ overhead; นโยบาย scheduler จริงมีรายละเอียดและเป้าหมายหลายแบบ",
+    "asset": null
+  },
+  {
+    "cat": "os",
+    "slug": "virtual",
+    "name": "Virtual Memory & Paging",
+    "thai": "ที่อยู่ที่โปรแกรมเห็นกับ RAM จริง",
+    "meaning": "OS และ hardware แปล virtual address เป็น physical address ผ่าน page table",
+    "formula": "\\text{VA}=\\text{page number}\\cdot\\text{page size}+\\text{offset}",
+    "steps": [
+      "page size = 4,096 bytes; virtual address = 5,000",
+      "page number = 1; offset = 904",
+      "ถ้า page 1 map ไป frame 7 → physical address = 7×4,096+904",
+      "ได้ physical address 29,576; ถ้า page ไม่พร้อมอาจเกิด page fault"
+    ],
+    "code": "page = address // page_size\noffset = address % page_size\nphysical = frame[page]*page_size + offset",
+    "q": "offset เปลี่ยนตอนแปล page เป็น frame ไหม?",
+    "a": "ไม่ ในตัวอย่าง paging นี้ offset คงเดิม",
+    "note": "page fault ไม่ได้แปลว่าโปรแกรมพังเสมอ; OS อาจนำ page เข้ามาแล้วทำต่อ",
+    "asset": null
+  },
+  {
+    "cat": "os",
+    "slug": "race",
+    "name": "Race Condition, Mutex & Deadlock",
+    "thai": "งานชนกันและรอกันไม่จบ",
+    "meaning": "Race ทำให้ผลขึ้นกับจังหวะ; mutex คุมส่วนวิกฤต; deadlock คือรอทรัพยากรเป็นวง",
+    "formula": "\\text{read}\\rightarrow\\text{modify}\\rightarrow\\text{write}",
+    "steps": [
+      "counter=0; thread A อ่าน 0",
+      "thread B อ่าน 0 ก่อน A เขียน",
+      "A เขียน 1 แล้ว B เขียน 1 → ควรเป็น 2 แต่ได้ 1",
+      "ใช้ lock ครอบทั้ง read-modify-write; จัดลำดับ lock ให้สม่ำเสมอเพื่อช่วยกัน deadlock"
+    ],
+    "code": "with lock:\n    counter = counter + 1\n# if multiple locks: acquire in a consistent order",
+    "q": "มี mutex แล้วจะไม่มี deadlock แน่นอนหรือไม่?",
+    "a": "ไม่ ถ้าถือ lock คนละตัวแล้วรอกันเป็นวงก็ยัง deadlock ได้",
+    "note": "ตัวอย่างแสดง interleaving เชิงแนวคิด; atomicity ขึ้นกับภาษา runtime และชนิด operation",
+    "asset": null
+  },
+  {
+    "cat": "networks",
+    "slug": "ipdns",
+    "name": "IP, Port & DNS",
+    "thai": "ที่อยู่เครื่อง ประตูบริการ และสมุดชื่อ",
+    "meaning": "DNS แปลงชื่อเป็นข้อมูลเช่น IP; port แยกบริการบนเครื่องเดียวกัน",
+    "formula": "\\text{endpoint}=(\\text{IP address},\\text{port})",
+    "steps": [
+      "พิมพ์ชื่อเว็บไซต์ → ขอข้อมูล DNS (หรือใช้ cache)",
+      "ได้ IP ของ server ที่ให้บริการ",
+      "เชื่อมต่อ endpoint เช่น IP และ port 443 สำหรับ HTTPS",
+      "ชื่อเดียวอาจมีหลาย IP และ IP เดียวอาจรับหลายเว็บไซต์"
+    ],
+    "code": "# conceptual example\nname = \"example.com\"\nservice_port = 443",
+    "q": "DNS ส่งเนื้อหาเว็บทั้งหมดกลับมาหรือไม่?",
+    "a": "ไม่ DNS ให้ข้อมูลสำหรับหาบริการ เนื้อหาเว็บถูกขอผ่านโปรโตคอลเว็บต่อ",
+    "note": "IP อาจเปลี่ยนและอาจเป็น IPv4 หรือ IPv6; port 443 เป็นค่าปกติของ HTTPS แต่กำหนดอื่นได้",
+    "asset": null
+  },
+  {
+    "cat": "networks",
+    "slug": "tcpudp",
+    "name": "TCP & UDP",
+    "thai": "ส่งแบบมีลำดับ กับส่งเป็น datagram",
+    "meaning": "TCP ให้ byte stream ที่เชื่อถือได้และเรียงลำดับ; UDP ไม่รับประกันส่งถึงหรือเรียงลำดับ",
+    "formula": "\\text{TCP: ordered byte stream}\\qquad\\text{UDP: datagrams}",
+    "steps": [
+      "TCP ส่งข้อมูล A,B,C เป็น stream",
+      "ถ้าบางส่วนหาย TCP มีการตรวจและส่งซ้ำตามกลไกโปรโตคอล",
+      "UDP ส่งแต่ละ datagram โดยไม่มีการรับประกันแบบเดียวกัน",
+      "แอปเลือกตามความต้องการ และอาจสร้างความเชื่อถือได้บน UDP เอง"
+    ],
+    "code": "# selection is based on application requirements\nneed_ordered_stream → consider TCP\nneed_datagrams → consider UDP",
+    "q": "UDP แปลว่าแอปไม่มีทางส่งข้อมูลอย่างเชื่อถือได้เลยไหม?",
+    "a": "ไม่ แอปหรือโปรโตคอลชั้นบนทำการยืนยันและส่งซ้ำเองได้ เช่น QUIC",
+    "note": "TCP ไม่เก็บขอบเขตข้อความให้แอป ต้องกำหนด framing เอง; UDP ไม่ได้เร็วกว่าเสมอ",
+    "asset": null
+  },
+  {
+    "cat": "networks",
+    "slug": "http",
+    "name": "HTTP, HTTPS & API",
+    "thai": "ขอข้อมูลและรับคำตอบ",
+    "meaning": "HTTP กำหนด request/response; HTTPS ปกป้องการสื่อสารด้วย TLS; API กำหนดวิธีคุยกับระบบ",
+    "formula": "\\text{request}=\\text{method}+\\text{URL}+\\text{headers}+\\text{optional body}",
+    "steps": [
+      "client ส่ง GET /products/42",
+      "server ตรวจ request แล้วอ่านข้อมูล",
+      "server ส่ง status 200 และ JSON กลับ",
+      "client แสดงผล; status 404 หมายถึงไม่พบ resource ที่ขอ"
+    ],
+    "code": "fetch(\"./data.json\")\n  .then(response => {\n    if (!response.ok) throw new Error(\"Request failed\");\n    return response.json();\n  });",
+    "q": "HTTPS ทำให้เว็บไซต์ปลอดภัยทุกด้านเลยไหม?",
+    "a": "ไม่ ปกป้องช่องทางสื่อสาร แต่ยังต้องดูสิทธิ์ การตรวจ input และความปลอดภัยฝั่งแอป",
+    "note": "API ไม่จำเป็นต้องเป็นเว็บหรือ JSON เสมอ; HTTP status กับ body มีหน้าที่ต่างกัน",
+    "asset": null
+  },
+  {
+    "cat": "embedded",
+    "slug": "ohm",
+    "name": "Voltage, Current & Resistance",
+    "thai": "แรงดัน กระแส ความต้านทาน",
+    "meaning": "แรงดันผลักให้กระแสไหล ส่วนความต้านทานจำกัดกระแสในแบบจำลองตัวต้านทาน",
+    "formula": "V=IR,\\quad P=VI",
+    "steps": [
+      "ให้แรงดัน 5 V คร่อม resistor 1,000 Ω",
+      "กระแส I=5/1,000=0.005 A=5 mA",
+      "กำลัง P=5×0.005=0.025 W",
+      "เลือกอุปกรณ์ตามพิกัดและวงจรจริง"
+    ],
+    "code": "V = 5\nR = 1000\nI = V/R  # amperes\nP = V*I  # watts",
+    "q": "ถ้า R เพิ่มสองเท่าโดย V เท่าเดิม กระแสเป็นอย่างไร?",
+    "a": "ลดเหลือครึ่งหนึ่ง ตามแบบจำลอง V=IR",
+    "note": "Ohm’s law แบบนี้ใช้กับองค์ประกอบที่มีพฤติกรรมเป็นตัวต้านทานเชิงเส้น ไม่ใช่ทุกอุปกรณ์",
+    "asset": null
+  },
+  {
+    "cat": "embedded",
+    "slug": "adc",
+    "name": "ADC & Sampling",
+    "thai": "แปลงแรงดันเป็นตัวเลข",
+    "meaning": "ADC วัดสัญญาณ analog เป็นค่าดิจิทัลที่มีความละเอียดจำกัด",
+    "formula": "\\text{levels}=2^N,\\quad\\Delta V\\approx\\frac{V_{\\mathrm{ref}}}{2^N}",
+    "steps": [
+      "สมมติ ADC 10-bit และช่วงอ้างอิง 0–5 V",
+      "มี 1,024 ระดับ; code อยู่ 0–1,023",
+      "ขนาดขั้นประมาณ 5/1,024=4.883 mV",
+      "แรงดันประมาณครึ่งช่วงให้ code ใกล้ 512"
+    ],
+    "code": "int raw = analogRead(A0);\n// For a stated 10-bit, 5 V example only:\nfloat estimate = raw * 5.0f / 1024.0f;",
+    "q": "เพิ่มจำนวน bits ช่วยอะไร?",
+    "a": "เพิ่มจำนวนระดับ ทำให้ quantization step เล็กลงเมื่อช่วงแรงดันเท่าเดิม",
+    "note": "resolution และ Vref ขึ้นกับบอร์ด; sampling rate และ noise มีผลต่อคุณภาพการวัด",
+    "asset": null
+  },
+  {
+    "cat": "embedded",
+    "slug": "gpiointerrupt",
+    "name": "GPIO & Interrupt",
+    "thai": "อ่านขา เขียนขา และตอบเหตุการณ์",
+    "meaning": "GPIO ใช้รับหรือส่งสัญญาณดิจิทัล; interrupt ให้ CPU ตอบสนองเหตุการณ์ตามกติกา",
+    "formula": "\\text{event}\\rightarrow\\text{ISR}\\rightarrow\\text{main processing}",
+    "steps": [
+      "ปุ่มทำให้ระดับสัญญาณที่ขาเปลี่ยน",
+      "เกิด interrupt → เข้าฟังก์ชัน ISR ที่ควรสั้น",
+      "ISR ตั้ง flag แล้วกลับไปงานเดิม",
+      "main loop เห็น flag → ทำงานที่ใช้เวลานานต่อ"
+    ],
+    "code": "// conceptual: real synchronization is platform-specific\non_interrupt(): flag ← true\nmain_loop():\n    if consume_flag_safely(): handle_event()",
+    "q": "ควรทำงานหนักหรือรอนานใน ISR ไหม?",
+    "a": "ควรหลีกเลี่ยง เพราะรบกวนการตอบสนองและงานอื่น",
+    "note": "ต้องดูแรงดันที่ขารับได้ debounce ปุ่ม และวิธีแบ่งปันข้อมูลอย่างปลอดภัยระหว่าง ISR กับ main",
+    "asset": null
+  },
+  {
+    "cat": "embedded",
+    "slug": "serial",
+    "name": "UART, I²C & SPI",
+    "thai": "วิธีคุยกับอุปกรณ์",
+    "meaning": "เป็นวิธีสื่อสาร serial ที่มีสาย clock รูปแบบการเลือกอุปกรณ์ และข้อกำหนดต่างกัน",
+    "formula": "\\text{UART: baud}\\qquad\\text{I}^2\\text{C: address}\\qquad\\text{SPI: chip select}",
+    "steps": [
+      "UART แบบทั่วไปใช้ TX/RX และตกลง baud rate กับรูปแบบ frame",
+      "I²C ใช้ SDA/SCL และ address เพื่อเลือกอุปกรณ์บน bus",
+      "SPI แบบทั่วไปใช้ clock, data สองทิศ และ chip select",
+      "เลือกตามอุปกรณ์ ระยะสาย ความเร็ว และข้อกำหนดไฟฟ้า"
+    ],
+    "code": "// example UART initialization on Arduino\nSerial.begin(9600);\nSerial.println(\"Hello\");",
+    "q": "I²C แยกอุปกรณ์ด้วยอะไรเป็นหลัก?",
+    "a": "address ของอุปกรณ์; ต้องดูกรณี address ซ้ำด้วย",
+    "note": "UART, I²C และ SPI ไม่ใช่ชื่อแทนกัน; ตรวจ pinout, logic level และ datasheet ก่อนต่อจริง",
+    "asset": null
+  },
+  {
+    "cat": "database",
+    "slug": "sql",
+    "name": "SQL & Relational Tables",
+    "thai": "ตารางและคำสั่งค้นข้อมูล",
+    "meaning": "เก็บข้อมูลเป็นแถวและคอลัมน์ แล้วระบุว่าต้องการแถวใดและคอลัมน์ใด",
+    "formula": "\\text{selection: rows}\\qquad\\text{projection: columns}",
+    "steps": [
+      "ตาราง students มี (id,name,score)",
+      "WHERE score ≥ 80 เลือกแถวที่ผ่าน",
+      "SELECT name,score เลือกคอลัมน์ที่แสดง",
+      "ORDER BY score DESC จัดคะแนนมากไปน้อย"
+    ],
+    "code": "SELECT name, score\nFROM students\nWHERE score >= 80\nORDER BY score DESC;",
+    "q": "WHERE กับ ORDER BY ทำหน้าที่เหมือนกันไหม?",
+    "a": "ไม่ WHERE กรองแถว ส่วน ORDER BY เรียงผลลัพธ์",
+    "note": "SQL ไม่รับประกันลำดับผลลัพธ์ถ้าไม่ระบุ ORDER BY; ใช้ parameterized query เมื่อนำ input มาเป็นค่า",
+    "asset": null
+  },
+  {
+    "cat": "database",
+    "slug": "index",
+    "name": "Database Index",
+    "thai": "ทางลัดไปยังแถวข้อมูล",
+    "meaning": "เหมือนสารบัญท้ายหนังสือ ช่วยค้นบาง query โดยไม่ต้องอ่านทั้งตาราง",
+    "formula": "T_{\\mathrm{tree\\ lookup}}=O(\\log n)\\quad\\text{under a balanced-tree model}",
+    "steps": [
+      "มีตารางลูกค้า 1 ล้านแถว",
+      "query หา customer_id = 42",
+      "index ที่เหมาะสมช่วยหาแถวแทนการไล่ทั้งหมด",
+      "แต่เพิ่มพื้นที่เก็บและงานบำรุงรักษาตอน insert/update/delete"
+    ],
+    "code": "CREATE INDEX ON customers(customer_id);\nEXPLAIN SELECT * FROM customers WHERE customer_id = 42;",
+    "q": "เพิ่ม index ทุกคอลัมน์ดีที่สุดเสมอไหม?",
+    "a": "ไม่ ทำให้กินพื้นที่และเขียนข้อมูลช้าลง ต้องดู query และแผนการทำงาน",
+    "note": "DB อาจเลือกไม่ใช้ index; รูปแบบ index และจำนวนแถวที่คืนมีผลต่อเวลา",
+    "asset": null
+  },
+  {
+    "cat": "database",
+    "slug": "transaction",
+    "name": "Transactions & ACID",
+    "thai": "งานหลายขั้นที่ต้องรักษาความถูกต้อง",
+    "meaning": "รวมหลายการเปลี่ยนแปลงเป็น transaction เช่นหักและเพิ่มเงินในการโอน",
+    "formula": "A+B=\\text{constant}\\quad\\text{for this fee-free transfer example}",
+    "steps": [
+      "เริ่ม A=100,B=20; ต้องโอน 30",
+      "หัก A → 70 แต่ยังไม่ควรทิ้งระบบไว้ครึ่งงาน",
+      "เพิ่ม B → 50; ยอดรวมยังเป็น 120",
+      "ถ้าขั้นใดล้มเหลวให้ rollback; ถ้าครบจึง commit"
+    ],
+    "code": "BEGIN;\nUPDATE accounts SET balance=balance-30 WHERE id=1;\nUPDATE accounts SET balance=balance+30 WHERE id=2;\nCOMMIT;\n-- Example omits balance checks and concurrency control.",
+    "q": "ถ้าเพิ่ม B ล้มเหลว แต่หัก A สำเร็จแล้วควรทำอย่างไร?",
+    "a": "rollback transaction เพื่อไม่ให้เหลือการโอนครึ่งเดียว",
+    "note": "ต้องตรวจยอด สิทธิ์ จำนวนแถว และ isolation/locking ด้วย; transaction อย่างเดียวไม่รับประกันกติกาธุรกิจ",
+    "asset": null
+  },
+  {
+    "cat": "software",
+    "slug": "git",
+    "name": "Git & Version Control",
+    "thai": "เก็บประวัติและรวมงาน",
+    "meaning": "Commit เก็บ snapshot พร้อมประวัติ; branch แยกแนวงาน; merge รวมการเปลี่ยนแปลง",
+    "formula": "\\text{working tree}\\rightarrow\\text{staging}\\rightarrow\\text{commit}",
+    "steps": [
+      "แก้ไฟล์ใน working tree",
+      "git add เลือกสิ่งที่จะ commit",
+      "git commit บันทึก snapshot ในเครื่อง",
+      "git push ส่ง commit ไป remote; หากงานชนกันต้อง resolve conflict"
+    ],
+    "code": "git status\ngit add lesson.html\ngit commit -m \"Add lesson\"\ngit push",
+    "q": "commit แล้วไฟล์ขึ้น GitHub ทันทีไหม?",
+    "a": "ไม่ commit อยู่ local ก่อน ต้อง push ไป remote",
+    "note": "Git กับ GitHub ต่างกัน: Git เป็นระบบ version control; GitHub เป็นบริการโฮสต์และทำงานร่วมกัน",
+    "asset": null
+  },
+  {
+    "cat": "software",
+    "slug": "testing",
+    "name": "Testing & Debugging",
+    "thai": "ตรวจพฤติกรรมและหาเหตุผิด",
+    "meaning": "Test ตรวจผลเทียบสิ่งที่คาด; debugging หาว่าขั้นไหนทำให้ผลผิด",
+    "formula": "\\text{test}=(\\text{input},\\text{expected behavior})",
+    "steps": [
+      "กำหนดว่าฟังก์ชัน sum ต้องทำอะไร",
+      "ทดสอบ [2,4,6] → 12 และ [] → 0",
+      "ถ้าผิด ลดให้เหลือตัวอย่างที่ทำให้ผิดซ้ำได้",
+      "ใช้ log หรือ debugger ดูค่าระหว่างทาง แล้วตรวจอีกครั้งหลังแก้"
+    ],
+    "code": "def total(values):\n    return sum(values)\nassert total([2,4,6]) == 12\nassert total([]) == 0",
+    "q": "test ผ่านทั้งหมดแปลว่าไม่มีบั๊กแน่นอนไหม?",
+    "a": "ไม่ แปลว่าผ่านกรณีที่ตรวจ ต้องเลือกกรณีให้ครอบคลุมความเสี่ยง",
+    "note": "เสริม integration test เมื่อต้องตรวจส่วนต่าง ๆ ทำงานร่วมกัน และตรวจขอบเขต/input ผิดรูปแบบ",
+    "asset": null
+  },
+  {
+    "cat": "software",
+    "slug": "interface",
+    "name": "API Contracts & Code Review",
+    "thai": "ตกลงวิธีใช้งานและตรวจงานร่วมกัน",
+    "meaning": "ระบุ input/output/error ให้ชัด แล้วตรวจความถูกต้องและความอ่านง่ายก่อนรวมงาน",
+    "formula": "\\text{contract}=\\text{inputs}+\\text{outputs}+\\text{errors}",
+    "steps": [
+      "ฟังก์ชัน divide(a,b) รับตัวเลขสองตัว",
+      "ถ้า b ≠ 0 คืน a/b",
+      "ถ้า b = 0 ระบุ error ที่ผู้เรียกจัดการได้",
+      "review ว่าตรง contract และตรวจ edge cases แล้ว"
+    ],
+    "code": "def divide(a,b):\n    if b == 0:\n        raise ValueError(\"division by zero\")\n    return a/b",
+    "q": "ทำไมต้องระบุ error ใน contract?",
+    "a": "เพื่อให้ผู้เรียกเตรียมรับกรณีผิดพลาดได้ ไม่ต้องเดาพฤติกรรม",
+    "note": "review ควรตรวจพฤติกรรมที่มีผลจริง พร้อมเหตุผลและตัวอย่าง มากกว่าดูรูปแบบโค้ดอย่างเดียว",
+    "asset": null
+  },
+  {
+    "cat": "security",
+    "slug": "auth",
+    "name": "Authentication & Authorization",
+    "thai": "ใครเป็นใคร และทำอะไรได้",
+    "meaning": "Authentication ตรวจตัวตน; authorization ตรวจสิทธิ์ของตัวตนนั้น",
+    "formula": "\\text{allow}=\\text{identity verified}\\land\\text{permission granted}",
+    "steps": [
+      "ผู้ใช้ login → ตรวจตัวตน",
+      "ระบบรู้ว่าเป็นผู้ใช้ Ann",
+      "Ann ขออ่านเอกสารของ Ben → ตรวจสิทธิ์ต่อ",
+      "แม้ login ถูกต้อง ถ้าไม่มีสิทธิ์ก็ต้องปฏิเสธ"
+    ],
+    "code": "user ← authenticate(request)\nif not can_read(user, document): deny\nelse: return document",
+    "q": "login สำเร็จหมายถึงอ่านข้อมูลทุกคนได้ไหม?",
+    "a": "ไม่ ต้องตรวจ authorization ของ resource ทุกครั้งที่จำเป็น",
+    "note": "อย่าเชื่อสิทธิ์ที่ client ส่งมาเอง; การตรวจหลักต้องทำในระบบที่เชื่อถือได้",
+    "asset": null
+  },
+  {
+    "cat": "security",
+    "slug": "crypto",
+    "name": "Hashing & Encryption",
+    "thai": "สรุปข้อมูล กับปิดข้อมูลด้วยกุญแจ",
+    "meaning": "Hash ให้ digest และไม่ออกแบบให้ถอดกลับ; encryption ออกแบบให้ถอดได้ด้วยกุญแจ",
+    "formula": "d=H(m),\\quad c=E_k(m),\\quad D_k(c)=m",
+    "steps": [
+      "ต้องการตรวจไฟล์เปลี่ยนไหม → ใช้ hash ตาม threat model",
+      "ต้องการซ่อนข้อความแล้วอ่านกลับ → ใช้ encryption",
+      "password ต้องใช้ password hashing ที่เหมาะสมพร้อม salt",
+      "การเข้ารหัสต้องดูความถูกต้องของข้อความและการจัดการกุญแจด้วย"
+    ],
+    "code": "# choose vetted libraries, not homemade cryptography\npassword storage → password hashing + salt\nrecoverable secrets → authenticated encryption",
+    "q": "เก็บ password ด้วย SHA-256 ตรง ๆ เหมาะไหม?",
+    "a": "ไม่ ควรใช้ password hashing ที่ออกแบบสำหรับงานนี้ เช่น Argon2id และตั้งค่าตามแนวทาง",
+    "note": "hash อาจชนกันได้; salt ไม่ใช่กุญแจลับ และอย่าเขียน algorithm เข้ารหัสเอง",
+    "asset": null
+  },
+  {
+    "cat": "security",
+    "slug": "input",
+    "name": "Input Validation & SQL Injection",
+    "thai": "ข้อมูลผู้ใช้ต้องไม่กลายเป็นคำสั่ง",
+    "meaning": "แยกค่าข้อมูลออกจากโครงสร้างคำสั่ง และตรวจรูปแบบ/ข้อจำกัดที่ระบบรับได้",
+    "formula": "\\text{query structure}\\ne\\text{user-supplied value}",
+    "steps": [
+      "ผู้ใช้ป้อนชื่อเพื่อค้นฐานข้อมูล",
+      "ถ้าต่อ string เป็น SQL อาจเปลี่ยนความหมายคำสั่ง",
+      "ใช้ placeholder ส่งค่าผ่าน parameter binding",
+      "ยังตรวจสิทธิ์และชนิดข้อมูลก่อนทำงาน"
+    ],
+    "code": "# Python sqlite3 parameter binding\nrow = db.execute(\n  \"SELECT * FROM users WHERE name = ?\",\n  (user_input,)\n).fetchone()",
+    "q": "ลบเครื่องหมาย quote ออกจาก input อย่างเดียวพอไหม?",
+    "a": "ไม่ ใช้ parameterized query และกติกาที่เหมาะกับบริบท",
+    "note": "placeholder syntax ขึ้นกับ driver; parameter binding สำหรับค่า ไม่ใช่การอนุญาตชื่อ table ใด ๆ",
+    "asset": null
+  },
+  {
+    "cat": "discrete",
+    "slug": "sets",
+    "name": "Sets & Relations",
+    "thai": "กลุ่มสมาชิกและความสัมพันธ์",
+    "meaning": "Set สนใจสมาชิกโดยไม่ซ้ำ; relation บอกว่าคู่ใดมีความสัมพันธ์",
+    "formula": "A\\cap B=\\{x:x\\in A\\land x\\in B\\},\\quad A\\cup B=\\{x:x\\in A\\lor x\\in B\\}",
+    "steps": [
+      "A={1,2,3}; B={3,4}",
+      "intersection → {3} ที่อยู่ทั้งคู่",
+      "union → {1,2,3,4} ที่อยู่ฝั่งใดก็ได้",
+      "A−B → {1,2} ที่อยู่ A แต่ไม่อยู่ B"
+    ],
+    "code": "A = {1,2,3}; B = {3,4}\nprint(A & B)  # {3}\nprint(A - B)  # {1,2}",
+    "q": "{1,1,2} เป็น set ที่มีสมาชิกกี่ตัว?",
+    "a": "2 ตัว คือ 1 และ 2 เพราะไม่นับซ้ำ",
+    "note": "set ไม่รับประกันลำดับแบบรายการ; relation ใช้แทนความสัมพันธ์ เช่น prerequisite ของวิชา",
+    "asset": null
+  },
+  {
+    "cat": "discrete",
+    "slug": "proof",
+    "name": "Implication, Proof & Invariants",
+    "thai": "ให้เหตุผลว่าโปรแกรมถูกอย่างไร",
+    "meaning": "Invariant เป็นเงื่อนไขที่ต้องจริงในจุดที่กำหนดของทุก iteration",
+    "formula": "\\text{after }k\\text{ iterations: }S=\\sum_{i=1}^{k}a_i",
+    "steps": [
+      "ก่อนวน: S=0 ตรงกับผลรวมสมาชิก 0 ตัว",
+      "สมมติหลัง k ตัว S เป็นผลรวมที่ถูกต้อง",
+      "เพิ่มสมาชิกตัวถัดไป → S ยังเป็นผลรวมของส่วนที่อ่านแล้ว",
+      "จบครบ n ตัว → S เป็นผลรวมทั้งหมด"
+    ],
+    "code": "S = 0\nfor value in values:\n    S += value\n    # invariant: S is the sum of processed values",
+    "q": "Invariant จริงอย่างเดียวพอจะพิสูจน์ว่าจบไหม?",
+    "a": "ไม่ ต้องพิสูจน์ termination ด้วย เช่นจำนวนสมาชิกที่เหลือลดลงจนเป็นศูนย์",
+    "note": "การทดสอบตัวอย่างช่วยหาบั๊ก; การพิสูจน์ต้องครอบคลุมทุก input ตามเงื่อนไขที่ระบุ",
+    "asset": null
+  },
+  {
+    "cat": "discrete",
+    "slug": "counting",
+    "name": "Combinatorics & Probability",
+    "thai": "นับทางเลือกและโอกาส",
+    "meaning": "แยกว่าลำดับมีผลไหม และเลือกซ้ำได้ไหมก่อนใช้สูตร",
+    "formula": "\\binom nr=\\frac{n!}{r!(n-r)!},\\quad P(A)=\\frac{|A|}{|\\Omega|}\\ \\text{when outcomes are equally likely}",
+    "steps": [
+      "เลือก 2 คนจาก 4 คน โดยไม่สนลำดับ",
+      "คู่ AB กับ BA เป็นคู่เดียวกัน",
+      "จำนวนคู่ = C(4,2)=6",
+      "ถ้าสุ่มเท่าเทียมทุกคู่ โอกาสได้คู่ AB = 1/6"
+    ],
+    "code": "from math import comb\nprint(comb(4,2))  # 6",
+    "q": "ถ้าเป็นรหัส 2 ตำแหน่งจาก 4 ตัว เลือกซ้ำได้ ยังใช้ C(4,2) ไหม?",
+    "a": "ไม่ ลำดับมีผลและเลือกซ้ำได้ จึงมี 4²=16 แบบ",
+    "note": "สูตรโอกาสแบบนับจำนวนใช้เมื่อแต่ละผลลัพธ์มีโอกาสเท่ากัน; ต้องระบุ sample space",
+    "asset": null
+  }
+]

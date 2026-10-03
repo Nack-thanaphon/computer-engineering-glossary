@@ -1,0 +1,26 @@
+/* ============================================
+   Theme — Apple System Fonts (default)
+   แก้ font ที่นี่ที่เดียว → มีผลทุก HTML
+   ============================================ */
+
+:root {
+  --font-apple: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text',
+                'Helvetica Neue', 'Inter', system-ui, sans-serif;
+  --font-mono: 'SF Mono', 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+}
+
+/* Force Apple fonts ทุก element */
+* {
+  font-family: var(--font-apple) !important;
+}
+
+/* ยกเว้น code/math ใช้ SF Mono */
+code, pre, .formula, .kw-term, .big-math,
+.slider-display, .expand-step, .kw-example {
+  font-family: var(--font-mono) !important;
+}
+
+/* ทำให้ตัวเลข tabular (เรียงเป็นหลัก) */
+table, .verify-table, .summary-table, .dist-table {
+  font-variant-numeric: tabular-nums;
+}
