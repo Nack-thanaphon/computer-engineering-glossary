@@ -1,0 +1,45 @@
+{
+  "id": "./",
+  "name": "Foundations — Computer Engineering",
+  "short_name": "Foundations",
+  "description": "เรียนคณิตศาสตร์ Algorithms และ Computer Engineering พร้อมสูตร ภาพ และตัวอย่างทีละขั้น",
+  "lang": "th",
+  "start_url": "./#library",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f7f8f5",
+  "theme_color": "#f7f8f5",
+  "categories": [
+    "education"
+  ],
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Algorithms",
+      "url": "./#algorithms"
+    },
+    {
+      "name": "Data Structures",
+      "url": "./#ds"
+    }
+  ]
+}

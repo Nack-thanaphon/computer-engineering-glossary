@@ -146,3 +146,5 @@ Additional primary references:
 
 - [Lucide](https://lucide.dev/) v1.50.0 — ISC. Local bundle `glossary-assets/lucide.min.js`; license `glossary-assets/Lucide-LICENSE.txt`.
 - Visual design reference: [Brilliant](https://brilliant.org/). No Brilliant assets or course text are included.
+
+App icon: adapted from Lucide BookOpen (ISC); vector in `icons/icon.svg` and raster app-size renditions in `icons/`.
